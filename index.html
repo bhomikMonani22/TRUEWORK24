@@ -3,1760 +3,868 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TrueWork24 — Build Proposal</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>TrueWork24 — Complete Workshop OS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        display: ['Fraunces', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+      colors: {
+        cream: '#FAF7F2',
+        ink: '#1A1714',
+      }
+    }
+  }
+}
+</script>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-
-:root {
-  --cream:    #F8F5EE;
-  --white:    #FFFFFF;
-  --yellow:   #D4A800;
-  --yellow-lt:#FBF3D0;
-  --yellow-bg:#FFFCF0;
-  --ink:      #181510;
-  --ink2:     #4A4740;
-  --ink3:     #9A9590;
-  --rule:     #E4DFD4;
-  --p1:       #2A6044;
-  --p1-bg:    #EEF6F1;
-  --p2:       #9B3E12;
-  --p2-bg:    #FBF1EC;
-}
-
-html { scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
-body {
-  background: var(--cream);
-  color: var(--ink);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
-  overflow-x: hidden;
-  width: 100%;
-}
-
-/* ─── NAV ─────────────────────────────────── */
-nav {
-  position: fixed; top:0; left:0; right:0; z-index:200;
-  background: rgba(248,245,238,0.92);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--rule);
-  height: 56px;
-  display: flex; align-items:center; justify-content:space-between;
-  padding: 0 48px;
-}
-.nav-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px; font-weight: 500; letter-spacing: 0.04em;
-  color: var(--ink);
-}
-.nav-brand span { color: var(--yellow); }
-.nav-right {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px; color: var(--ink3);
-  letter-spacing: 0.12em; text-transform: uppercase;
-  display: flex; gap: 32px;
-}
-.nav-right a {
-  color: inherit; text-decoration:none;
-  transition: color 0.2s;
-}
-.nav-right a:hover { color: var(--ink); }
-
-/* ─── PAGE WRAPPER ────────────────────────── */
-.page {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 48px;
-}
-
-/* ─── SLIDE ───────────────────────────────── */
-.slide {
-  min-height: 100vh;
-  display: flex; flex-direction:column; justify-content:center;
-  padding: 100px 0 80px;
-  border-bottom: 1px solid var(--rule);
-}
-
-/* ─── COVER ───────────────────────────────── */
-.cover {
-  background: var(--white);
-  padding: 0;
-  border-bottom: none;
-}
-.cover-inner {
-  min-height: 100vh;
-  display: grid;
-  grid-template-rows: 1fr auto;
-  padding: 120px 80px 80px;
-  max-width: 960px;
-  margin: 0 auto;
-}
-.cover-eyebrow {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--ink3); margin-bottom: 32px;
-}
-.cover-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(56px, 8vw, 96px);
-  font-weight: 300; line-height: 1.0;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-  margin-bottom: 8px;
-}
-.cover-title em {
-  font-style: italic; color: var(--yellow);
-}
-.cover-subtitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px; font-weight: 300;
-  color: var(--ink2); margin-bottom: 56px;
-  font-style: italic;
-}
-.cover-rule {
-  width: 48px; height: 2px;
-  background: var(--yellow);
-  margin-bottom: 40px;
-}
-.cover-summary {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 0; border: 1px solid var(--rule);
-}
-.cs-item {
-  padding: 24px 28px;
-  border-right: 1px solid var(--rule);
-}
-.cs-item:last-child { border-right: none; }
-.cs-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 38px; font-weight: 400; line-height: 1;
-  color: var(--ink); margin-bottom: 4px;
-}
-.cs-num.gold { color: var(--yellow); }
-.cs-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--ink3);
-}
-.cover-footer {
-  display: flex; align-items: center; justify-content: space-between;
-  padding-top: 40px;
-  border-top: 1px solid var(--rule);
-  margin-top: auto;
-}
-.cf-left {
-  font-size: 12px; color: var(--ink3); line-height: 1.7;
-}
-.cf-right {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 13px; color: var(--ink3); font-style: italic;
-  text-align: right;
-}
-
-/* ─── PHASE DIVIDERS ──────────────────────── */
-.divider {
-  background: var(--white);
-  border-bottom: 1px solid var(--rule);
-}
-.divider-inner {
-  max-width: 960px; margin: 0 auto;
-  padding: 48px 48px;
-  display: flex; align-items: center; gap: 24px;
-}
-.div-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 13px; font-style:italic; color: var(--ink3);
-  white-space: nowrap;
-}
-.div-line { flex:1; height:1px; background: var(--rule); }
-.div-title {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px; letter-spacing: 0.16em;
-  text-transform: uppercase; white-space:nowrap;
-}
-.div-title.p1 { color: var(--p1); }
-.div-title.p2 { color: var(--p2); }
-
-/* ─── MODULE SLIDE ────────────────────────── */
-.slide-inner {
-  display: grid;
-  grid-template-columns: 1fr 280px;
-  gap: 64px;
-  align-items: start;
-}
-
-.mod-eyebrow {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--ink3);
-  margin-bottom: 16px;
-  display: flex; align-items:center; gap: 12px;
-}
-.mod-eyebrow::after {
-  content:''; flex:1; height:1px; background:var(--rule);
-}
-.mod-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(38px, 5vw, 58px);
-  font-weight: 400; line-height: 1.05;
-  letter-spacing: -0.01em;
-  margin-bottom: 6px;
-}
-.mod-tagline {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 17px; font-style: italic;
-  color: var(--ink2); margin-bottom: 28px;
-}
-.mod-desc {
-  font-size: 14.5px; line-height: 1.8;
-  color: var(--ink2); max-width: 520px;
-  margin-bottom: 32px;
-  font-weight: 300;
-}
-
-/* Features */
-.feat-list { list-style: none; }
-.feat-list li {
-  font-size: 13px; color: var(--ink2);
-  padding: 9px 0;
-  border-bottom: 1px solid var(--rule);
-  display: flex; align-items: baseline; gap: 10px;
-  font-weight: 300; line-height: 1.5;
-}
-.feat-list li:first-child { border-top: 1px solid var(--rule); }
-.feat-list li::before {
-  content: '—';
-  color: var(--yellow);
-  font-size: 12px;
-  flex-shrink: 0;
-}
-
-/* Right column */
-.mod-aside {
-  position: sticky;
-  top: 80px;
-}
-.price-box {
-  background: var(--white);
-  border: 1px solid var(--rule);
-  padding: 28px;
-  margin-bottom: 12px;
-}
-.price-box .pb-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--ink3);
-  margin-bottom: 8px;
-}
-.price-box .pb-amount {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 46px; font-weight: 400; line-height: 1;
-  color: var(--ink); letter-spacing: -0.01em;
-}
-.price-box .pb-sub {
-  font-size: 11px; color: var(--ink3);
-  margin-top: 6px; line-height: 1.5;
-}
-
-.time-box {
-  background: var(--yellow-bg);
-  border: 1px solid #E8D98A;
-  padding: 16px 20px;
-  margin-bottom: 12px;
-}
-.time-box .tb-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--yellow);
-  margin-bottom: 4px;
-}
-.time-box .tb-val {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px; font-weight: 500;
-  color: var(--ink);
-}
-
-.phase-box {
-  padding: 14px 20px;
-  border: 1px solid;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px; letter-spacing: 0.14em;
-  text-transform: uppercase;
-  display: flex; align-items:center; gap: 8px;
-}
-.phase-box.p1 {
-  background: var(--p1-bg);
-  border-color: rgba(42,96,68,0.25);
-  color: var(--p1);
-}
-.phase-box.p2 {
-  background: var(--p2-bg);
-  border-color: rgba(155,62,18,0.25);
-  color: var(--p2);
-}
-.phase-box.infra {
-  background: var(--yellow-bg);
-  border-color: rgba(212,168,0,0.3);
-  color: #8A6C00;
-}
-.phase-box .dot {
-  width:6px; height:6px; border-radius:50%;
-  background:currentColor; flex-shrink:0;
-}
-
-/* ─── SUMMARY TABLE ───────────────────────── */
-.summary-slide {
-  padding: 100px 0 80px;
-}
-.section-eyebrow {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--ink3);
-  margin-bottom: 16px;
-}
-.section-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 52px; font-weight: 300;
-  line-height: 1.0; margin-bottom: 8px;
-}
-.section-sub {
-  font-size: 14px; color: var(--ink2);
-  margin-bottom: 48px; font-style:italic;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 17px;
-}
-
-table.summary {
-  width:100%; border-collapse:collapse;
-  margin-bottom: 48px;
-}
-table.summary thead tr {
-  border-bottom: 2px solid var(--ink);
-}
-table.summary th {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--ink3);
-  padding: 12px 16px 12px 0;
-  font-weight: 400; text-align: left;
-}
-table.summary th:last-child { text-align:right; padding-right:0; }
-table.summary td {
-  padding: 16px 16px 16px 0;
-  border-bottom: 1px solid var(--rule);
-  font-size: 13px; color: var(--ink2);
-  vertical-align: middle;
-  font-weight: 300;
-}
-table.summary td:last-child { text-align:right; padding-right:0; }
-.td-num {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px; color: var(--ink3);
-}
-.td-name { font-weight: 400; color: var(--ink); }
-.td-phase {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px; letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 3px 10px;
-  border-radius: 2px;
-  white-space: nowrap;
-  display: inline-block;
-}
-.td-phase.p1 { background:var(--p1-bg); color:var(--p1); }
-.td-phase.p2 { background:var(--p2-bg); color:var(--p2); }
-.td-phase.infra { background:var(--yellow-bg); color:#8A6C00; }
-.td-cost {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px; font-weight: 400;
-  color: var(--ink);
-}
-.td-time {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px; color: var(--ink3);
-  white-space: nowrap;
-}
-tr.subtotal td {
-  border-bottom: 2px solid var(--rule);
-  padding-top: 14px; padding-bottom: 14px;
-  background: var(--cream);
-}
-.subtotal-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--ink3);
-}
-.subtotal-val {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px; font-weight: 400; color: var(--ink);
-}
-
-.totals-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 32px;
-}
-.total-card {
-  background: var(--white);
-  border: 1px solid var(--rule);
-  padding: 28px 32px;
-  position:relative; overflow:hidden;
-}
-.total-card::after {
-  content:''; position:absolute;
-  bottom:0; left:0; right:0; height:3px;
-}
-.total-card.main::after { background: var(--yellow); }
-.total-card.bundle::after { background: var(--ink); }
-.total-card .tc-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--ink3);
-  margin-bottom: 10px;
-}
-.total-card .tc-amount {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 52px; font-weight: 400; line-height: 1;
-  letter-spacing: -0.01em;
-  margin-bottom: 6px;
-}
-.total-card.main .tc-amount { color: var(--ink); }
-.total-card.bundle .tc-amount { color: var(--ink); }
-.total-card .tc-note {
-  font-size: 12px; color: var(--ink3);
-}
-.total-card .tc-save {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 16px; font-style: italic;
-  color: var(--p1);
-}
-.disclaimer {
-  font-size: 11px; color: var(--ink3);
-  line-height: 1.8; padding-top: 24px;
-  border-top: 1px solid var(--rule);
-}
-
-/* ─── TIMELINE ────────────────────────────── */
-.timeline-grid {
-  display: grid;
-  grid-template-columns: 160px repeat(5, 1fr);
-  border: 1px solid var(--rule);
-  background: var(--white);
-  margin-top: 16px;
-}
-.tg-head {
-  padding: 12px 0;
-  font-family: 'DM Mono', monospace;
-  font-size: 9px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--ink3);
-  border-bottom: 1px solid var(--rule);
-  text-align: center;
-}
-.tg-head:first-child { border-right: 1px solid var(--rule); }
-.tg-name {
-  padding: 0 12px;
-  display: flex; align-items:center;
-  font-size: 11px; color: var(--ink2);
-  border-bottom: 1px solid var(--rule);
-  border-right: 1px solid var(--rule);
-  min-height: 40px; font-weight: 300;
-}
-.tg-cell {
-  border-bottom: 1px solid var(--rule);
-  padding: 5px 4px;
-  min-height: 40px;
-}
-.tg-row:last-child .tg-name,
-.tg-row:last-child .tg-cell { border-bottom: none; }
-.tg-bar {
-  height: 28px; border-radius: 2px;
-  display: flex; align-items:center;
-  padding: 0 8px;
-  font-family: 'DM Mono', monospace;
-  font-size: 8px; letter-spacing: 0.08em;
-  text-transform: uppercase; white-space:nowrap;
-  overflow: hidden;
-}
-.tg-bar.p1 { background: var(--p1-bg); color: var(--p1); }
-.tg-bar.p2 { background: var(--p2-bg); color: var(--p2); }
-.tg-bar.am { background: var(--yellow-bg); color: #8A6C00; }
-.tg-bar.span2 { grid-column: span 2; }
-.tg-bar.span3 { grid-column: span 3; }
-.tg-bar.span4 { grid-column: span 4; }
-.tg-bar.span5 { grid-column: span 5; }
-.tg-milestone {
-  grid-column: 1 / -1;
-  padding: 10px 12px;
-  font-family: 'DM Mono', monospace;
-  font-size: 9px; letter-spacing: 0.14em;
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--rule);
-  display: flex; align-items:center; gap: 10px;
-}
-.tg-milestone.p1 { background: var(--p1-bg); color: var(--p1); }
-.tg-milestone.p2 { background: var(--p2-bg); color: var(--p2); }
-
-/* ─── UTILS ───────────────────────────────── */
-@keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-.slide-inner > * { animation: fadeIn 0.5s ease both; }
-.slide-inner > *:nth-child(2) { animation-delay: 0.1s; }
-
-/* ══ TABLET ≤900px ══════════════════════════════════════════ */
-@media(max-width:900px){
-  .cover-summary { grid-template-columns: repeat(2,1fr); }
-  .cs-item:nth-child(2) { border-right: none; }
-  .cs-item:nth-child(1), .cs-item:nth-child(2) { border-bottom: 1px solid var(--rule); }
-}
-
-/* ══ MOBILE ≤680px ═══════════════════════════════════════════ */
-@media(max-width:680px){
-
-  /* Reset overflow at every wrapper */
-  .page, section, .slide, .cover { max-width: 100%; }
-
-  /* ── NAV ── */
-  nav { padding: 0 18px; height: 48px; }
-  .nav-right { display: none; }
-
-  /* ── PAGE WRAPPER ── */
-  .page { padding: 0 18px; }
-
-  /* ── DIVIDERS ── */
-  .divider-inner { padding: 28px 18px; gap: 10px; flex-wrap: wrap; }
-  .div-num { display: none; }
-  .div-title { font-size: 9px; text-align: center; }
-
-  /* ── COVER ── */
-  .cover-inner {
-    padding: 76px 18px 48px;
-    min-height: auto;
-    display: flex; flex-direction: column; gap: 20px;
+  html, body { overflow-x: hidden; }
+  body { background: #FAF7F2; color: #1A1714; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+  /* Mesh gradient cards */
+  .mesh-peach { background: linear-gradient(135deg, #FFE4D1 0%, #FFD9E2 50%, #FFC8D9 100%); }
+  .mesh-lilac { background: linear-gradient(135deg, #E6DFFF 0%, #D8CEFF 50%, #C8BDF5 100%); }
+  .mesh-mint  { background: linear-gradient(135deg, #D4F5E0 0%, #C0EED4 50%, #A8E3C0 100%); }
+  .mesh-sky   { background: linear-gradient(135deg, #D4ECFF 0%, #BEE0FF 50%, #A8D2FA 100%); }
+  .mesh-butter{ background: linear-gradient(135deg, #FFF4C9 0%, #FFE89B 50%, #FFD96E 100%); }
+  .mesh-rose  { background: linear-gradient(135deg, #FFDCE0 0%, #FFC0CE 50%, #FFA5B8 100%); }
+  .hero-gradient {
+    background:
+      radial-gradient(1200px 500px at 20% 0%, rgba(255, 220, 195, 0.5), transparent 60%),
+      radial-gradient(1000px 400px at 80% 10%, rgba(220, 210, 255, 0.5), transparent 60%),
+      radial-gradient(800px 600px at 50% 100%, rgba(255, 235, 180, 0.4), transparent 60%);
   }
-  .cover-title { font-size: 36px; line-height: 1.05; }
-  .cover-sub { font-size: 15px; }
-  .cover-rule { margin-bottom: 20px; }
+  .font-display-italic { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; }
 
-  /* Stats 2×2 */
-  .cover-summary {
-    grid-template-columns: repeat(2,1fr) !important;
-    border: 1px solid var(--rule);
+  /* Animated underline */
+  .link-underline { position: relative; }
+  .link-underline::after {
+    content: ''; position: absolute; bottom: -2px; left: 0;
+    width: 0; height: 1px; background: currentColor; transition: width 0.25s ease;
   }
-  .cs-item { padding: 14px 16px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-  .cs-item:nth-child(2) { border-right: none; }
-  .cs-item:nth-child(3) { border-bottom: none; }
-  .cs-item:nth-child(4) { border-right: none; border-bottom: none; }
-  .cs-num { font-size: 26px; }
-  .cs-num.gold { font-size: 24px; }
-  .cs-label { font-size: 8px; }
+  .link-underline:hover::after { width: 100%; }
 
-  /* Cover footer */
-  .cover-footer, .cover-foot {
-    flex-direction: column; gap: 10px; padding-top: 20px;
+  /* Marquee */
+  @keyframes scroll-x {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
-  .cf-r, .cf-right { text-align: left; }
+  .marquee-track { animation: scroll-x 40s linear infinite; }
 
-  /* ── SLIDES ── */
-  .slide { padding: 72px 0 48px; min-height: auto; }
-  .summary-slide { padding: 72px 0 48px; }
-  .slide-inner { grid-template-columns: 1fr; gap: 24px; }
-  .mod-aside { position: static; }
+  /* Floating cards */
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+  }
+  .float-slow { animation: floaty 5s ease-in-out infinite; }
+  .float-med  { animation: floaty 4s ease-in-out infinite 0.5s; }
+  .float-fast { animation: floaty 3.5s ease-in-out infinite 1s; }
 
-  /* ── MODULE TEXT ── */
-  .mod-eyebrow { font-size: 8px; }
-  .mod-title { font-size: 32px; line-height: 1.05; }
-  .mod-tagline { font-size: 15px; }
-  .mod-desc { font-size: 13.5px; max-width: 100%; margin-bottom: 20px; }
-  .feat-list li { font-size: 12.5px; padding: 8px 0; }
+  /* Fade up on scroll — simple version */
+  [data-reveal] { opacity: 0; transform: translateY(20px); transition: all 0.7s ease; }
+  [data-reveal].shown { opacity: 1; transform: translateY(0); }
 
-  /* ── PRICE ASIDE ── */
-  .price-box { padding: 18px 20px; }
-  .price-box .pb-amount { font-size: 34px !important; }
-  .time-box { padding: 14px 16px; }
-  .phase-box { font-size: 9px; padding: 12px 16px; }
+  /* Custom bullet */
+  .custom-dot::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: currentColor;
+    border-radius: 50%;
+    margin-right: 12px;
+    vertical-align: middle;
+    transform: translateY(-2px);
+  }
 
-  /* ── SECTION HEADINGS ── */
-  .section-eyebrow { font-size: 9px; }
-  .section-title { font-size: 34px; line-height: 1.05; }
-  .section-sub { font-size: 15px; }
-
-  /* ── TOTALS ── */
-  .totals-grid { grid-template-columns: 1fr; gap: 14px; }
-  .total-card { padding: 20px 22px; }
-  .total-card .tc-amount { font-size: 36px; }
-
-  /* ── TABLE: horizontal scroll ── */
-  .table-scroll {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin: 0 -18px;
-    padding: 0 18px;
-  }
-  .table-scroll::after {
-    content: 'scroll for full table →';
-    display: block; text-align: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 8px; letter-spacing: .12em;
-    color: var(--ink3); padding: 8px 0 0;
-  }
-  table.summary { min-width: 560px; }
-  table.summary th { font-size: 8px; padding: 10px 8px 10px 0; }
-  table.summary td { font-size: 11px; padding: 12px 8px 12px 0; }
-  .td-cost { font-size: 15px; }
-  .subtotal-val { font-size: 20px; }
-
-  /* ── TIMELINE: horizontal scroll ── */
-  .tl-scroll {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin: 0 -18px;
-    padding: 0 18px;
-  }
-  .tl-scroll::after {
-    content: 'scroll to see full timeline →';
-    display: block; text-align: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 8px; letter-spacing: .12em;
-    color: var(--ink3); padding: 8px 0 0;
-  }
-  .timeline-grid { min-width: 580px; font-size: 8px; }
-  .tg-name { font-size: 8px; padding: 0 6px; }
-  .tg-bar { font-size: 7px; height: 24px; }
-  .tg-head { font-size: 8px; }
-  .tg-milestone { font-size: 8px; }
-
-  /* ── RESPONSIVE GRID HELPERS ── */
-  .rg-2, .rg-3 {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 14px !important;
-  }
-  .rg-break {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 0 !important;
-  }
-  .rg-break > div {
-    border-right: none !important;
-    border-bottom: 1px solid var(--rule) !important;
-    padding: 16px 0 !important;
-  }
-  .rg-break > div:last-child { border-bottom: none !important; }
-  .rg-feat {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 0 !important;
-  }
-  .rg-feat > div {
-    border-right: none !important;
-    border-bottom: 1px solid var(--rule) !important;
-    padding: 16px 0 !important;
-  }
-  .rg-feat > div:last-child { border-bottom: none !important; }
-
-  /* ── DISCLAIMER ── */
-  .disclaimer { font-size: 10.5px; }
-}
+  /* Mobile menu */
+  .mobile-nav { transition: all 0.3s ease; }
+  .mobile-nav.open { max-height: 500px; }
+  .mobile-nav.closed { max-height: 0; overflow: hidden; }
 </style>
 </head>
-<body>
+<body class="antialiased">
 
-<!-- NAV -->
-<nav>
-  <div class="nav-brand">True<span>Work</span>24</div>
-  <div class="nav-right">
-    <a href="#phase1">Phase 1</a>
-    <a href="#phase2">Phase 2</a>
-    <a href="#timeline">Timeline</a>
-    <a href="#pricing">Pricing</a>
+<!-- ═══════════════════════════════════════════════════
+     NAV
+═══════════════════════════════════════════════════ -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-cream/85 backdrop-blur-md border-b border-black/5">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 h-14 sm:h-16 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2 font-display text-xl sm:text-2xl font-semibold tracking-tight">
+      <span class="inline-block w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-gradient-to-br from-orange-400 to-pink-400"></span>
+      TrueWork<span class="font-display-italic text-orange-500">24</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-ink/70">
+      <a href="#features" class="link-underline hover:text-ink">Platform</a>
+      <a href="#timeline" class="link-underline hover:text-ink">Timeline</a>
+      <a href="#pricing" class="link-underline hover:text-ink">Pricing</a>
+      <a href="#faq" class="link-underline hover:text-ink">FAQ</a>
+    </div>
+    <div class="hidden md:flex items-center gap-3">
+      <a href="#pricing" class="text-sm font-medium text-ink/70 hover:text-ink px-3 py-2">See pricing</a>
+      <a href="#contact" class="text-sm font-semibold bg-ink text-cream px-4 py-2 rounded-full hover:bg-ink/85 transition-colors">Book a demo →</a>
+    </div>
+    <button id="menu-btn" class="md:hidden p-2 -mr-2" aria-label="Menu">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+  <div id="mobile-nav" class="mobile-nav closed md:hidden bg-cream border-t border-black/5">
+    <div class="px-5 py-4 space-y-3">
+      <a href="#features" class="block text-sm font-medium text-ink/80 py-2">Platform</a>
+      <a href="#timeline" class="block text-sm font-medium text-ink/80 py-2">Timeline</a>
+      <a href="#pricing" class="block text-sm font-medium text-ink/80 py-2">Pricing</a>
+      <a href="#faq" class="block text-sm font-medium text-ink/80 py-2">FAQ</a>
+      <a href="#contact" class="block text-center text-sm font-semibold bg-ink text-cream px-4 py-3 rounded-full mt-3">Book a demo →</a>
+    </div>
   </div>
 </nav>
 
-<!-- ═══════════════════════════════════════
-     COVER
-════════════════════════════════════════ -->
-<section class="cover">
-  <div class="cover-inner">
-    <div>
-      <div class="cover-eyebrow">Build Proposal · 2025 · Confidential</div>
-      <h1 class="cover-title">
-        A complete digital<br>
-        system for your<br>
-        <em>workshop.</em>
-      </h1>
-      <p class="cover-subtitle">From billing to customer app — everything in one place.</p>
-      <div class="cover-rule"></div>
-      <div class="cover-summary">
-        <div class="cs-item">
-          <div class="cs-num">13</div>
-          <div class="cs-label">Features Built</div>
+<!-- ═══════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════ -->
+<section class="hero-gradient pt-28 sm:pt-36 pb-16 sm:pb-24 lg:pb-32 relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12 relative">
+    <!-- Tiny status pill -->
+    <div class="flex justify-center mb-6 sm:mb-8">
+      <div class="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 bg-white/70 backdrop-blur border border-black/5 rounded-full text-xs font-medium text-ink/75">
+        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+        Build Proposal · April 2026
+      </div>
+    </div>
+
+    <!-- Headline -->
+    <h1 class="text-center font-display font-medium tracking-tight text-ink leading-[0.95]">
+      <span class="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl">One system to run</span>
+      <span class="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl">your <span class="font-display-italic bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">entire workshop.</span></span>
+    </h1>
+
+    <p class="text-center mt-6 sm:mt-8 text-base sm:text-lg lg:text-xl text-ink/65 max-w-2xl mx-auto leading-relaxed">
+      Billing, inventory, live-streaming, customer app, smart AI — everything a modern 50-bay workshop needs, in one beautifully simple platform.
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 mt-8 sm:mt-10">
+      <a href="#pricing" class="bg-ink text-cream text-center px-6 py-3.5 rounded-full font-semibold text-sm hover:bg-ink/85 transition-colors">See pricing →</a>
+      <a href="#features" class="bg-white text-center border border-black/10 text-ink px-6 py-3.5 rounded-full font-semibold text-sm hover:bg-white/60 transition-colors">Explore features</a>
+    </div>
+
+    <!-- Live preview floating cards -->
+    <div class="mt-16 sm:mt-20 lg:mt-24 relative">
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 max-w-5xl mx-auto">
+        <!-- Card 1 -->
+        <div class="mesh-peach rounded-2xl p-4 sm:p-5 aspect-square flex flex-col justify-between float-slow">
+          <div class="w-7 h-7 sm:w-9 sm:h-9 bg-white/50 rounded-lg flex items-center justify-center">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-orange-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          </div>
+          <div>
+            <div class="text-[10px] sm:text-xs font-mono text-orange-900/60 uppercase tracking-wider">Billing</div>
+            <div class="text-xs sm:text-sm font-semibold text-orange-950 mt-1">GST-ready invoices</div>
+          </div>
         </div>
-        <div class="cs-item">
-          <div class="cs-num">2 Mo</div>
-          <div class="cs-label">Core Ops Live</div>
+        <!-- Card 2 -->
+        <div class="mesh-lilac rounded-2xl p-4 sm:p-5 aspect-square flex flex-col justify-between float-med">
+          <div class="w-7 h-7 sm:w-9 sm:h-9 bg-white/50 rounded-lg flex items-center justify-center">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-purple-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          </div>
+          <div>
+            <div class="text-[10px] sm:text-xs font-mono text-purple-900/60 uppercase tracking-wider">Live stream</div>
+            <div class="text-xs sm:text-sm font-semibold text-purple-950 mt-1">Watch repairs live</div>
+          </div>
         </div>
-        <div class="cs-item">
-          <div class="cs-num">5 Mo</div>
-          <div class="cs-label">Full Platform</div>
+        <!-- Card 3 -->
+        <div class="mesh-mint rounded-2xl p-4 sm:p-5 aspect-square flex flex-col justify-between float-fast">
+          <div class="w-7 h-7 sm:w-9 sm:h-9 bg-white/50 rounded-lg flex items-center justify-center">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-green-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/></svg>
+          </div>
+          <div>
+            <div class="text-[10px] sm:text-xs font-mono text-green-900/60 uppercase tracking-wider">Inventory</div>
+            <div class="text-xs sm:text-sm font-semibold text-green-950 mt-1">Smart stock alerts</div>
+          </div>
         </div>
-        <div class="cs-item">
-          <div class="cs-num gold">₹40.5L</div>
-          <div class="cs-label">Bundle + Free Support</div>
+        <!-- Card 4 -->
+        <div class="mesh-sky rounded-2xl p-4 sm:p-5 aspect-square flex flex-col justify-between float-slow">
+          <div class="w-7 h-7 sm:w-9 sm:h-9 bg-white/50 rounded-lg flex items-center justify-center">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 8v8m-4-5v5m-4-2v2m-2 4h14a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
+          <div>
+            <div class="text-[10px] sm:text-xs font-mono text-blue-900/60 uppercase tracking-wider">Analytics</div>
+            <div class="text-xs sm:text-sm font-semibold text-blue-950 mt-1">Daily revenue pulse</div>
+          </div>
+        </div>
+        <!-- Card 5 -->
+        <div class="mesh-butter rounded-2xl p-4 sm:p-5 aspect-square flex flex-col justify-between float-med">
+          <div class="w-7 h-7 sm:w-9 sm:h-9 bg-white/50 rounded-lg flex items-center justify-center">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-yellow-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+          </div>
+          <div>
+            <div class="text-[10px] sm:text-xs font-mono text-yellow-900/60 uppercase tracking-wider">Customer app</div>
+            <div class="text-xs sm:text-sm font-semibold text-yellow-950 mt-1">Android + iOS native</div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="cover-footer">
-      <div class="cf-left">
-        TrueWork24<br>
-        Prepared for: Workshop Owner
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     METRICS STRIP
+═══════════════════════════════════════════════════ -->
+<section class="py-12 sm:py-16 border-y border-black/5 bg-white">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
+      <div data-reveal>
+        <div class="text-4xl sm:text-5xl lg:text-6xl font-display font-medium tracking-tight">14</div>
+        <div class="text-xs sm:text-sm text-ink/60 mt-2">Integrated modules</div>
       </div>
-      <div class="cf-right">
-        Built for the floor.<br>Designed for the owner.
+      <div data-reveal>
+        <div class="text-4xl sm:text-5xl lg:text-6xl font-display font-medium tracking-tight">2<span class="text-2xl sm:text-3xl text-ink/40">mo</span></div>
+        <div class="text-xs sm:text-sm text-ink/60 mt-2">Core ops live in</div>
+      </div>
+      <div data-reveal>
+        <div class="text-4xl sm:text-5xl lg:text-6xl font-display font-medium tracking-tight">5<span class="text-2xl sm:text-3xl text-ink/40">mo</span></div>
+        <div class="text-xs sm:text-sm text-ink/60 mt-2">Full platform by</div>
+      </div>
+      <div data-reveal>
+        <div class="text-4xl sm:text-5xl lg:text-6xl font-display font-medium tracking-tight bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">100<span class="text-2xl sm:text-3xl text-ink/40">%</span></div>
+        <div class="text-xs sm:text-sm text-ink/60 mt-2">Yours to own</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ PHASE 1 DIVIDER ═══ -->
-<div class="divider" id="phase1">
-  <div class="divider-inner">
-    <div class="div-num">01 — 04</div>
-    <div class="div-line"></div>
-    <div class="div-title p1">Phase 1 — Core Operations — Months 1 & 2</div>
-    <div class="div-line"></div>
-  </div>
-</div>
+<!-- ═══════════════════════════════════════════════════
+     FEATURES HERO
+═══════════════════════════════════════════════════ -->
+<section id="features" class="py-20 sm:py-24 lg:py-32">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12">
+    <div class="max-w-3xl">
+      <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-4">What's included</div>
+      <h2 class="font-display font-medium tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">
+        Everything a 50-bay workshop needs.
+        <span class="font-display-italic text-ink/40">Nothing it doesn't.</span>
+      </h2>
+      <p class="text-base sm:text-lg text-ink/60 mt-6">
+        Fourteen deeply integrated modules, built specifically for high-volume, 24/7 motorcycle service operations.
+      </p>
+    </div>
 
-<!-- ═══════════════════════════════════════
-     MODULE 01 — CORE PLATFORM
-════════════════════════════════════════ -->
-<div style="background:var(--white); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="slide-inner">
+    <!-- Feature grid -->
+    <div class="mt-12 sm:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+
+      <!-- 01 Billing -->
+      <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-black/5 hover:border-orange-200 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-orange-100">
+        <div class="mesh-peach w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-orange-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/40 mb-1">01 · Billing</div>
+        <h3 class="text-lg sm:text-xl font-display font-medium mb-2">Billing &amp; Operations Hub</h3>
+        <p class="text-sm text-ink/60 leading-relaxed">GST-compliant invoicing, multi-payment checkout, barcode scanning, parts + labour split.</p>
+      </div>
+
+      <!-- 02 Advisor + Mechanic -->
+      <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-black/5 hover:border-purple-200 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-100">
+        <div class="mesh-lilac w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-purple-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/40 mb-1">02 · Floor</div>
+        <h3 class="text-lg sm:text-xl font-display font-medium mb-2">Advisor &amp; Mechanic Panel</h3>
+        <p class="text-sm text-ink/60 leading-relaxed">Live bay board, SLA timers, parts requests from the bay. Built for dirty hands.</p>
+      </div>
+
+      <!-- 03 Owner -->
+      <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-black/5 hover:border-green-200 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-green-100">
+        <div class="mesh-mint w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-green-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/40 mb-1">03 · Analytics</div>
+        <h3 class="text-lg sm:text-xl font-display font-medium mb-2">Owner &amp; Manager View</h3>
+        <p class="text-sm text-ink/60 leading-relaxed">Your business on one screen. Revenue, margin, SLA health — all live, from anywhere.</p>
+      </div>
+
+      <!-- 04 Android -->
+      <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-black/5 hover:border-blue-200 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-100">
+        <div class="mesh-sky w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-blue-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/40 mb-1">04 · Mobile</div>
+        <h3 class="text-lg sm:text-xl font-display font-medium mb-2">Customer Android App</h3>
+        <p class="text-sm text-ink/60 leading-relaxed">Book services, watch live stream, track status, download invoices — from their phone.</p>
+      </div>
+
+      <!-- 05 iOS -->
+      <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-black/5 hover:border-pink-200 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-pink-100">
+        <div class="mesh-rose w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-pink-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.5A8.5 8.5 0 113.5 10a9 9 0 018.5 8.5z"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/40 mb-1">05 · Mobile</div>
+        <h3 class="text-lg sm:text-xl font-display font-medium mb-2">Customer iPhone App</h3>
+        <p class="text-sm text-ink/60 leading-relaxed">Apple App Store published. Full parity with Android. Premium finish for iPhone users.</p>
+      </div>
+
+      <!-- 06 Live Stream -->
+      <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-black/5 hover:border-yellow-200 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-yellow-100">
+        <div class="mesh-butter w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-yellow-800" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/40 mb-1">06 · Streaming</div>
+        <h3 class="text-lg sm:text-xl font-display font-medium mb-2">Live Camera Feed</h3>
+        <p class="text-sm text-ink/60 leading-relaxed">Customers watch their bike being serviced. Per-job authenticated. Industry first.</p>
+      </div>
+
+      <!-- 07 AI -->
+      <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-black/5 hover:border-orange-200 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-orange-100">
+        <div class="mesh-peach w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-orange-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/40 mb-1">07 · AI</div>
+        <h3 class="text-lg sm:text-xl font-display font-medium mb-2">Smart Attendance &amp; Stock</h3>
+        <p class="text-sm text-ink/60 leading-relaxed">Face-scan check-in. Predictive inventory. No more buddy-punching. No more stockouts.</p>
+      </div>
+
+      <!-- 08 Notifications -->
+      <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-black/5 hover:border-green-200 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-green-100">
+        <div class="mesh-mint w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-green-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/40 mb-1">08 · Comms</div>
+        <h3 class="text-lg sm:text-xl font-display font-medium mb-2">WhatsApp + SMS + Push</h3>
+        <p class="text-sm text-ink/60 leading-relaxed">Every customer updated automatically at every stage. Zero manual messaging.</p>
+      </div>
+
+      <!-- 09 Booking -->
+      <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-black/5 hover:border-purple-200 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-100">
+        <div class="mesh-lilac w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-purple-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/40 mb-1">09 · Booking</div>
+        <h3 class="text-lg sm:text-xl font-display font-medium mb-2">Booking &amp; Quotation</h3>
+        <p class="text-sm text-ink/60 leading-relaxed">Online slot booking with bay-capacity limits. Digital quote approval for big jobs.</p>
+      </div>
+
+      <!-- 10 Website -->
+      <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-black/5 hover:border-blue-200 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-100">
+        <div class="mesh-sky w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-blue-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/40 mb-1">10 · Web</div>
+        <h3 class="text-lg sm:text-xl font-display font-medium mb-2">TrueWork24 Website</h3>
+        <p class="text-sm text-ink/60 leading-relaxed">Your brand online. Booking CTA linked to live slot calendar. SEO-optimised.</p>
+      </div>
+
+      <!-- 11 Server + Roles -->
+      <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-black/5 hover:border-pink-200 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-pink-100">
+        <div class="mesh-rose w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-pink-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/40 mb-1">11 · Infra</div>
+        <h3 class="text-lg sm:text-xl font-display font-medium mb-2">Server &amp; Security</h3>
+        <p class="text-sm text-ink/60 leading-relaxed">Cloud server, SSL, Cloudflare protection, 6 staff roles locked down from day one.</p>
+      </div>
+
+      <!-- 12 QA -->
+      <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-black/5 hover:border-yellow-200 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-yellow-100">
+        <div class="mesh-butter w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-yellow-800" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/40 mb-1">12 · Quality</div>
+        <h3 class="text-lg sm:text-xl font-display font-medium mb-2">Testing &amp; QA</h3>
+        <p class="text-sm text-ink/60 leading-relaxed">Continuous quality assurance across all 5 months — not a last-minute afterthought.</p>
+      </div>
+
+      <!-- 13 Support -->
+      <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-black/5 hover:border-green-200 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-green-100">
+        <div class="mesh-mint w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-green-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/40 mb-1">13 · Support</div>
+        <h3 class="text-lg sm:text-xl font-display font-medium mb-2">3 Months Free Support</h3>
+        <p class="text-sm text-ink/60 leading-relaxed">Bugs fixed in 24 hours. Server monitored. Staff trained. Everything calibrated.</p>
+      </div>
+
+      <!-- 14 Marketing -->
+      <div class="group bg-white rounded-3xl p-6 sm:p-7 border border-black/5 hover:border-orange-200 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-orange-100 sm:col-span-2 lg:col-span-1">
+        <div class="mesh-peach w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-orange-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/40 mb-1">14 · Growth</div>
+        <h3 class="text-lg sm:text-xl font-display font-medium mb-2">Marketing Launch</h3>
+        <p class="text-sm text-ink/60 leading-relaxed">Social, Google, launch ads — first 100 customers through the door.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     TIMELINE
+═══════════════════════════════════════════════════ -->
+<section id="timeline" class="py-20 sm:py-24 lg:py-32 bg-white border-y border-black/5">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12">
+    <div class="max-w-3xl mb-14 sm:mb-20">
+      <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-4">Delivery schedule</div>
+      <h2 class="font-display font-medium tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">
+        Live on the floor in <span class="font-display-italic text-ink/40">two months.</span>
+      </h2>
+      <p class="text-base sm:text-lg text-ink/60 mt-6">
+        Core billing, inventory, and job card operations are live by Month 2. Mobile apps, live streaming, and AI come online by Month 5.
+      </p>
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="mb-12 sm:mb-16">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-2 h-2 rounded-full bg-green-500"></span>
+        <span class="text-xs font-mono uppercase tracking-widest text-green-700">Phase 1 · Core Ops · Months 1–2</span>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div class="mesh-mint rounded-2xl p-4 border border-green-200/40">
+          <div class="text-xs font-mono text-green-900/60">Week 1</div>
+          <div class="font-medium text-sm text-green-950 mt-1">Server &amp; security setup</div>
+        </div>
+        <div class="mesh-mint rounded-2xl p-4 border border-green-200/40">
+          <div class="text-xs font-mono text-green-900/60">Week 1–4</div>
+          <div class="font-medium text-sm text-green-950 mt-1">Billing &amp; operations</div>
+        </div>
+        <div class="mesh-mint rounded-2xl p-4 border border-green-200/40">
+          <div class="text-xs font-mono text-green-900/60">Week 5–6</div>
+          <div class="font-medium text-sm text-green-950 mt-1">Advisor &amp; mechanic panel</div>
+        </div>
+        <div class="mesh-mint rounded-2xl p-4 border border-green-200/40">
+          <div class="text-xs font-mono text-green-900/60">Week 6–7</div>
+          <div class="font-medium text-sm text-green-950 mt-1">Owner dashboard</div>
+        </div>
+        <div class="mesh-mint rounded-2xl p-4 border border-green-200/40">
+          <div class="text-xs font-mono text-green-900/60">Week 7–8</div>
+          <div class="font-medium text-sm text-green-950 mt-1">WhatsApp + SMS alerts</div>
+        </div>
+      </div>
+      <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-full text-xs font-mono text-green-800">
+        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        Core operations live · End of Month 2
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
     <div>
-      <div class="mod-eyebrow">Module 01 of 13</div>
-      <h2 class="mod-title">Billing &<br>Operations Hub</h2>
-      <p class="mod-tagline">Everything the counter needs to run a full day.</p>
-      <p class="mod-desc">Your billing, inventory, and job cards all in one screen. GST is handled automatically. The moment a bill is raised, parts are deducted from stock. No separate system for invoicing, no separate system for parts — everything talks to everything else.</p>
-      <ul class="feat-list">
-        <li>Bills generated with GST split between parts and labour</li>
-        <li>Accepts cash, UPI, card, and split payments</li>
-        <li>Invoice prints in one tap, also sent via WhatsApp</li>
-        <li>Every spare part tracked — what's low, what's overstocked</li>
-        <li>Alerts you before a critical part runs out</li>
-        <li>Full digital job card for every vehicle in the workshop</li>
-        <li>Discount codes and coupons supported at counter</li>
-      </ul>
-    </div>
-    <div class="mod-aside">
-      <div class="price-box">
-        <div class="pb-label">Investment</div>
-        <div class="pb-amount">₹6,00,000</div>
-        <div class="pb-sub">One-time · Module 01</div>
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+        <span class="text-xs font-mono uppercase tracking-widest text-orange-600">Phase 2 · Full Platform · Months 3–5</span>
       </div>
-      <div class="time-box">
-        <div class="tb-label">Delivered in</div>
-        <div class="tb-val">4 Weeks</div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="mesh-peach rounded-2xl p-4 border border-orange-200/40">
+          <div class="text-xs font-mono text-orange-900/60">Month 3</div>
+          <div class="font-medium text-sm text-orange-950 mt-1">Android + iOS apps</div>
+        </div>
+        <div class="mesh-peach rounded-2xl p-4 border border-orange-200/40">
+          <div class="text-xs font-mono text-orange-900/60">Month 3–4</div>
+          <div class="font-medium text-sm text-orange-950 mt-1">Live camera streaming</div>
+        </div>
+        <div class="mesh-peach rounded-2xl p-4 border border-orange-200/40">
+          <div class="text-xs font-mono text-orange-900/60">Month 4</div>
+          <div class="font-medium text-sm text-orange-950 mt-1">AI attendance + stock</div>
+        </div>
+        <div class="mesh-peach rounded-2xl p-4 border border-orange-200/40">
+          <div class="text-xs font-mono text-orange-900/60">Month 4</div>
+          <div class="font-medium text-sm text-orange-950 mt-1">Booking + quotations</div>
+        </div>
+        <div class="mesh-peach rounded-2xl p-4 border border-orange-200/40 lg:col-span-1">
+          <div class="text-xs font-mono text-orange-900/60">Month 5</div>
+          <div class="font-medium text-sm text-orange-950 mt-1">Public website launch</div>
+        </div>
+        <div class="mesh-butter rounded-2xl p-4 border border-yellow-200/40 sm:col-span-2 lg:col-span-3">
+          <div class="text-xs font-mono text-yellow-900/70">Continuous · All 5 months</div>
+          <div class="font-medium text-sm text-yellow-950 mt-1">Testing · QA · Bug fixes · Documentation</div>
+        </div>
       </div>
-      <div class="phase-box p1">
-        <span class="dot"></span> Phase 1 · Months 1–2
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-</div>
-
-<!-- ═══════════════════════════════════════
-     MODULE 02 — ADVISOR & MECHANIC PANEL
-════════════════════════════════════════ -->
-<div style="background:var(--cream); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="slide-inner">
-    <div>
-      <div class="mod-eyebrow">Module 02 of 13</div>
-      <h2 class="mod-title">Advisor &<br>Mechanic Panel</h2>
-      <p class="mod-tagline">Every person on the floor knows exactly what to do.</p>
-      <p class="mod-desc">The front desk gets a live board showing every bike and its status. The mechanic sees only their jobs for the shift on a big, simple screen — no confusion, no paper. If a job is running late, the manager knows immediately without being on the floor.</p>
-      <ul class="feat-list">
-        <li>Front desk sees all incoming appointments and walk-ins</li>
-        <li>Live colour-coded status for every bike in every bay</li>
-        <li>Parts requested from the service bay without leaving it</li>
-        <li>Mechanic toggles BUSY / FREE with a single tap</li>
-        <li>15-minute job timer — late jobs automatically flagged</li>
-        <li>Vehicle photos captured at check-in</li>
-      </ul>
-    </div>
-    <div class="mod-aside">
-      <div class="price-box">
-        <div class="pb-label">Investment</div>
-        <div class="pb-amount">₹2,80,000</div>
-        <div class="pb-sub">One-time · Module 02</div>
-      </div>
-      <div class="time-box">
-        <div class="tb-label">Delivered in</div>
-        <div class="tb-val">2 Weeks</div>
-      </div>
-      <div class="phase-box p1">
-        <span class="dot"></span> Phase 1 · Month 2
+      <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 rounded-full text-xs font-mono text-orange-800">
+        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        Full platform live · End of Month 5
       </div>
     </div>
   </div>
 </section>
-</div>
-</div>
 
-<!-- ═══════════════════════════════════════
-     MODULE 03 — OWNER DASHBOARD
-════════════════════════════════════════ -->
-<div style="background:var(--white); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="slide-inner">
-    <div>
-      <div class="mod-eyebrow">Module 03 of 13</div>
-      <h2 class="mod-title">Owner &<br>Manager View</h2>
-      <p class="mod-tagline">Your business, in one glance — from anywhere.</p>
-      <p class="mod-desc">A private dashboard for you and your manager showing today's revenue, job status, which mechanics are performing, and what's going wrong before it becomes a problem. Accessible from your phone or laptop, from home or the floor.</p>
-      <ul class="feat-list">
-        <li>Today's revenue — parts vs. labour split</li>
-        <li>Which jobs are running behind, and by how much</li>
-        <li>Mechanic performance — jobs done, idle time</li>
-        <li>Coupon and discount performance tracking</li>
-        <li>One-click financial report export</li>
-        <li>Low-stock summary visible from the owner view</li>
-      </ul>
-    </div>
-    <div class="mod-aside">
-      <div class="price-box">
-        <div class="pb-label">Investment</div>
-        <div class="pb-amount">₹2,40,000</div>
-        <div class="pb-sub">One-time · Module 03</div>
-      </div>
-      <div class="time-box">
-        <div class="tb-label">Delivered in</div>
-        <div class="tb-val">2 Weeks</div>
-      </div>
-      <div class="phase-box p1">
-        <span class="dot"></span> Phase 1 · Month 2
+<!-- ═══════════════════════════════════════════════════
+     VALUE ANCHOR
+═══════════════════════════════════════════════════ -->
+<section class="py-20 sm:py-24 lg:py-32">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 lg:px-12">
+    <div class="bg-white rounded-3xl border border-black/5 p-8 sm:p-12 lg:p-16 relative overflow-hidden">
+      <!-- Decorative gradients -->
+      <div class="absolute -top-20 -right-20 w-72 h-72 rounded-full mesh-peach opacity-50 blur-3xl"></div>
+      <div class="absolute -bottom-20 -left-20 w-72 h-72 rounded-full mesh-lilac opacity-50 blur-3xl"></div>
+      <div class="relative">
+        <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-4">Platform valuation</div>
+        <h2 class="font-display font-medium tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.02] mb-6">
+          This platform is worth
+          <span class="block mt-2 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500 bg-clip-text text-transparent font-display-italic">₹50,00,000.</span>
+        </h2>
+        <p class="text-base sm:text-lg text-ink/65 max-w-2xl mb-8">
+          Independently benchmarked against Mumbai agency rates for this feature scope. We're offering it to you two ways — both significantly below market.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-black/10 rounded-full text-xs font-mono text-ink/70">14 modules</span>
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-black/10 rounded-full text-xs font-mono text-ink/70">Android + iOS</span>
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-black/10 rounded-full text-xs font-mono text-ink/70">Live streaming</span>
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-black/10 rounded-full text-xs font-mono text-ink/70">AI attendance</span>
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-black/10 rounded-full text-xs font-mono text-ink/70">Full IP ownership</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
-</div>
-</div>
 
-<!-- MODULE 08 — NOTIFICATIONS (Phase 1) -->
-<div style="background:var(--cream); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="slide-inner">
-    <div>
-      <div class="mod-eyebrow">Module 08 of 13</div>
-      <h2 class="mod-title">Customer<br>Alerts</h2>
-      <p class="mod-tagline">No customer is left waiting without an update.</p>
-      <p class="mod-desc">The moment a bike enters the workshop, when service starts, when parts are replaced, and when it's ready — the customer gets a WhatsApp message automatically. Your staff does not need to call anyone or type a single message.</p>
-      <ul class="feat-list">
-        <li>WhatsApp message on service start and completion</li>
-        <li>SMS backup for customers without WhatsApp</li>
-        <li>Invoice sent directly to customer's WhatsApp on billing</li>
-        <li>Booking confirmation via WhatsApp</li>
-        <li>Internal push alerts for staff — missed jobs, approvals</li>
-      </ul>
+<!-- ═══════════════════════════════════════════════════
+     PRICING — TWO OPTIONS
+═══════════════════════════════════════════════════ -->
+<section id="pricing" class="py-20 sm:py-24 lg:py-32 bg-white border-y border-black/5">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12">
+    <div class="text-center mb-14 sm:mb-20 max-w-3xl mx-auto">
+      <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-4">Your options</div>
+      <h2 class="font-display font-medium tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">
+        Two ways to own it.
+        <span class="font-display-italic text-ink/40">Both yours.</span>
+      </h2>
+      <p class="text-base sm:text-lg text-ink/60 mt-6">
+        Pay upfront and own the software outright, or start small and pay in milestones.
+      </p>
     </div>
-    <div class="mod-aside">
-      <div class="price-box">
-        <div class="pb-label">Investment</div>
-        <div class="pb-amount">₹1,60,000</div>
-        <div class="pb-sub">One-time · Module 08</div>
-      </div>
-      <div class="time-box">
-        <div class="tb-label">Delivered in</div>
-        <div class="tb-val">1.5 Weeks</div>
-      </div>
-      <div class="phase-box p1">
-        <span class="dot"></span> Phase 1 · Month 2
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-</div>
 
-<!-- MODULE 11 — INFRA -->
-<div style="background:var(--white); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="slide-inner">
-    <div>
-      <div class="mod-eyebrow">Module 11 of 13</div>
-      <h2 class="mod-title">Server &<br>Security Setup</h2>
-      <p class="mod-tagline">The secure foundation everything runs on.</p>
-      <p class="mod-desc">Before anything goes live, the server is provisioned, secured with SSL, and protected via Cloudflare. Staff access is locked — your mechanic cannot see financial data, the billing person cannot change job cards. This is built once on Day 1 and protects everything that comes after.</p>
-      <ul class="feat-list">
-        <li>Cloud server setup — fast, reliable, professionally hosted</li>
-        <li>SSL security certificate (https)</li>
-        <li>Cloudflare protection — DDoS shield and fast loading</li>
-        <li>Six staff roles with strict access controls</li>
-        <li>Automated daily database backup</li>
-      </ul>
-      <div style="margin-top:24px; padding:16px 20px; background:var(--p1-bg); border-left:3px solid var(--p1);">
-        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--p1); margin-bottom:4px;">Phase 1 Milestone</div>
-        <div style="font-size:13px; color:var(--p1);">Core operations live by end of Month 2.</div>
-      </div>
-    </div>
-    <div class="mod-aside">
-      <div class="price-box">
-        <div class="pb-label">Investment</div>
-        <div class="pb-amount">₹1,20,000</div>
-        <div class="pb-sub">One-time · Module 11</div>
-      </div>
-      <div class="time-box">
-        <div class="tb-label">Delivered in</div>
-        <div class="tb-val">Week 1</div>
-      </div>
-      <div class="phase-box infra">
-        <span class="dot"></span> Infrastructure · Day 1
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-</div>
+    <!-- Two-option grid -->
+    <div class="grid lg:grid-cols-2 gap-5 lg:gap-6">
 
-<!-- ═══ PHASE 2 DIVIDER ═══ -->
-<div class="divider" id="phase2">
-  <div class="divider-inner">
-    <div class="div-num">05 — 13</div>
-    <div class="div-line"></div>
-    <div class="div-title p2">Phase 2 — Full Platform — Months 3 through 5</div>
-    <div class="div-line"></div>
-  </div>
-</div>
+      <!-- OPTION A — Full buyout -->
+      <div class="bg-cream rounded-3xl p-8 sm:p-10 border border-black/5 relative">
+        <div class="flex items-start justify-between mb-8">
+          <div>
+            <div class="text-xs font-mono uppercase tracking-widest text-ink/50 mb-2">Option A</div>
+            <h3 class="font-display font-medium text-2xl sm:text-3xl">Complete Buyout</h3>
+          </div>
+          <span class="text-xs font-mono px-3 py-1 bg-white rounded-full text-ink/60 border border-black/5">Best for owners</span>
+        </div>
 
-<!-- MODULE 04 — ANDROID APP -->
-<div style="background:var(--cream); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="slide-inner">
-    <div>
-      <div class="mod-eyebrow">Module 04 of 13</div>
-      <h2 class="mod-title">Customer<br>Android App</h2>
-      <p class="mod-tagline">Your customers stay connected to their bike.</p>
-      <p class="mod-desc">A clean mobile app your customers download from Google Play. They can book services, watch their bike being worked on live, get updates at every stage, and download their invoice — all from their phone. The TrueWork24 brand stays on their screen. Return visits increase.</p>
-      <ul class="feat-list">
-        <li>Book a service slot from the app</li>
-        <li>Live updates: check-in, service started, ready for pickup</li>
-        <li>Watch the live stream of their bike being serviced</li>
-        <li>Download and store all past invoices</li>
-        <li>Manage multiple bikes from one account</li>
-        <li>Coupon wallet and exclusive offers</li>
-      </ul>
-    </div>
-    <div class="mod-aside">
-      <div class="price-box">
-        <div class="pb-label">Investment</div>
-        <div class="pb-amount">₹5,00,000</div>
-        <div class="pb-sub">One-time · Module 04</div>
-      </div>
-      <div class="time-box">
-        <div class="tb-label">Delivered in</div>
-        <div class="tb-val">5 Weeks</div>
-      </div>
-      <div class="phase-box p2">
-        <span class="dot"></span> Phase 2 · Month 3
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-</div>
+        <div class="mb-8">
+          <div class="flex items-baseline gap-2">
+            <span class="font-display font-medium text-5xl sm:text-6xl lg:text-7xl tracking-tight">₹40L</span>
+            <span class="text-sm text-ink/50 font-mono">one-time</span>
+          </div>
+          <div class="text-xs font-mono uppercase tracking-wider text-green-700 mt-2">Nothing more ever comes to us</div>
+        </div>
 
-<!-- MODULE 05 — iOS APP -->
-<div style="background:var(--white); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="slide-inner">
-    <div>
-      <div class="mod-eyebrow">Module 05 of 13</div>
-      <h2 class="mod-title">Customer<br>iPhone App</h2>
-      <p class="mod-tagline">Same app, same features — for Apple customers.</p>
-      <p class="mod-desc">The Android app is built in a way that lets us release an identical iPhone version with one additional week of work. iPhone users get every feature from the Android app — booking, live stream, invoice download, and notifications. Published to the Apple App Store.</p>
-      <ul class="feat-list">
-        <li>100% same features as Android app</li>
-        <li>Published on the Apple App Store</li>
-        <li>Apple notification system (APNs) configured</li>
-        <li>Tested on current iPhone models</li>
-      </ul>
-    </div>
-    <div class="mod-aside">
-      <div class="price-box">
-        <div class="pb-label">Investment</div>
-        <div class="pb-amount">₹4,00,000</div>
-        <div class="pb-sub">One-time · Module 05</div>
-      </div>
-      <div class="time-box">
-        <div class="tb-label">Delivered in</div>
-        <div class="tb-val">+1 Week</div>
-      </div>
-      <div class="phase-box p2">
-        <span class="dot"></span> Phase 2 · Month 3
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-</div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-3 text-sm text-ink/75">
+            <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <span><strong class="text-ink">100% IP ownership</strong> — yours forever, legally protected</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm text-ink/75">
+            <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <span>All 14 modules · Android + iOS apps · live streaming</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm text-ink/75">
+            <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <span><strong class="text-ink">3 months free support</strong> after go-live</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm text-ink/75">
+            <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <span>You can franchise, license, or resell the software</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm text-ink/75">
+            <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <span>No annual fees, no renewal pressure</span>
+          </li>
+        </ul>
 
-<!-- MODULE 06 — LIVE STREAMING -->
-<div style="background:var(--cream); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="slide-inner">
-    <div>
-      <div class="mod-eyebrow">Module 06 of 13</div>
-      <h2 class="mod-title">Live Service<br>Camera Feed</h2>
-      <p class="mod-tagline">Customers watch the work happen in real time.</p>
-      <p class="mod-desc">A live camera feed from your service bay streams directly to the customer's app. Each customer sees only their own bike — nobody else's. The stream starts automatically when a job begins and stops when it's marked complete. This one feature removes every doubt about labour charges.</p>
-      <ul class="feat-list">
-        <li>Live video stream tied to each active job card</li>
-        <li>Customer sees only their own vehicle — never others</li>
-        <li>Works on variable internet speeds — adjusts quality</li>
-        <li>Stream starts and stops automatically with the job</li>
-        <li>No extra cost beyond the one-time build fee</li>
-      </ul>
+        <div class="bg-white rounded-2xl p-5 mb-6 border border-black/5">
+          <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-3">You only pay providers directly for:</div>
+          <div class="space-y-2 text-xs text-ink/60">
+            <div class="flex justify-between"><span>Cloud server hosting</span><span class="font-mono text-ink/80">₹2–3K/mo</span></div>
+            <div class="flex justify-between"><span>Domain name</span><span class="font-mono text-ink/80">₹1K/yr</span></div>
+            <div class="flex justify-between"><span>WhatsApp + streaming APIs</span><span class="font-mono text-ink/80">Per use</span></div>
+          </div>
+        </div>
+
+        <a href="#contact" class="block text-center bg-ink text-cream px-6 py-3.5 rounded-full font-semibold text-sm hover:bg-ink/85 transition-colors">Choose full buyout →</a>
+      </div>
+
+      <!-- OPTION B — Milestone -->
+      <div class="bg-gradient-to-br from-white to-orange-50/50 rounded-3xl p-8 sm:p-10 border-2 border-orange-300 relative lg:-mt-4 lg:mb-4">
+        <span class="absolute -top-3 left-8 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-mono uppercase tracking-widest px-3 py-1 rounded-full">Lower entry point</span>
+
+        <div class="flex items-start justify-between mb-8 mt-2">
+          <div>
+            <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-2">Option B</div>
+            <h3 class="font-display font-medium text-2xl sm:text-3xl">Milestone Plan</h3>
+          </div>
+          <span class="text-xs font-mono px-3 py-1 bg-orange-100 rounded-full text-orange-800 border border-orange-200">Recommended</span>
+        </div>
+
+        <div class="mb-8">
+          <div class="flex items-baseline gap-2">
+            <span class="font-display font-medium text-5xl sm:text-6xl lg:text-7xl tracking-tight">₹10L</span>
+            <span class="text-sm text-ink/50 font-mono">upfront</span>
+          </div>
+          <div class="text-xs font-mono uppercase tracking-wider text-orange-600 mt-2">Paid in milestones · licence model</div>
+        </div>
+
+        <!-- Milestone breakdown -->
+        <div class="bg-white rounded-2xl border border-orange-200/60 divide-y divide-orange-100 mb-6">
+          <div class="p-4 flex items-center justify-between">
+            <div>
+              <div class="text-xs font-mono uppercase tracking-wider text-ink/50">Milestone 1 · Contract signing</div>
+              <div class="text-sm font-medium text-ink mt-0.5">Kick-off payment</div>
+            </div>
+            <div class="font-display font-medium text-lg">₹10L</div>
+          </div>
+          <div class="p-4 flex items-center justify-between">
+            <div>
+              <div class="text-xs font-mono uppercase tracking-wider text-ink/50">Milestone 2 · Full delivery</div>
+              <div class="text-sm font-medium text-ink mt-0.5">Platform live · Month 5</div>
+            </div>
+            <div class="font-display font-medium text-lg">₹5L</div>
+          </div>
+          <div class="p-4 flex items-center justify-between">
+            <div>
+              <div class="text-xs font-mono uppercase tracking-wider text-ink/50">Milestone 3 · After 3-mo support</div>
+              <div class="text-sm font-medium text-ink mt-0.5">Final payment · Month 8</div>
+            </div>
+            <div class="font-display font-medium text-lg">₹5L</div>
+          </div>
+          <div class="p-4 flex items-center justify-between bg-orange-50/50">
+            <div>
+              <div class="text-xs font-mono uppercase tracking-wider text-orange-600">Year 2 onwards</div>
+              <div class="text-sm font-medium text-ink mt-0.5">Annual retainer</div>
+            </div>
+            <div class="font-display font-medium text-lg">₹2L<span class="text-sm text-ink/50">/yr</span></div>
+          </div>
+        </div>
+
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-3 text-sm text-ink/75">
+            <svg class="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <span><strong class="text-ink">₹20L total over Year 1</strong> — spread across build milestones</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm text-ink/75">
+            <svg class="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <span>From Year 2 · ₹2L/year covers full maintenance &amp; updates</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm text-ink/75">
+            <svg class="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <span>Cloud, domain, APIs still billed directly to you at provider cost</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm text-ink/75">
+            <svg class="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <span>Upgrade to full buyout any time — ₹20L credited against ₹40L</span>
+          </li>
+        </ul>
+
+        <a href="#contact" class="block text-center bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-3.5 rounded-full font-semibold text-sm hover:shadow-lg hover:shadow-orange-200 transition-all">Start with milestone plan →</a>
+      </div>
     </div>
-    <div class="mod-aside">
-      <div class="price-box">
-        <div class="pb-label">Investment</div>
-        <div class="pb-amount">₹5,50,000</div>
-        <div class="pb-sub">One-time · Module 06</div>
-      </div>
-      <div class="time-box">
-        <div class="tb-label">Delivered in</div>
-        <div class="tb-val">3 Weeks</div>
-      </div>
-      <div class="phase-box p2">
-        <span class="dot"></span> Phase 2 · Month 3–4
+
+    <!-- Comparison strip -->
+    <div class="mt-10 sm:mt-14 bg-cream rounded-2xl border border-black/5 overflow-hidden">
+      <div class="px-5 sm:px-7 py-4 border-b border-black/5 text-xs font-mono uppercase tracking-widest text-ink/50">At a glance</div>
+      <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-black/5">
+        <div class="p-5 sm:p-6">
+          <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-2">Pay today</div>
+          <div class="font-display font-medium text-xl sm:text-2xl">₹40L <span class="text-sm text-ink/40">vs</span> ₹10L</div>
+        </div>
+        <div class="p-5 sm:p-6">
+          <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-2">Year 2 onwards</div>
+          <div class="font-display font-medium text-xl sm:text-2xl">₹0 <span class="text-sm text-ink/40">vs</span> ₹2L/yr</div>
+        </div>
+        <div class="p-5 sm:p-6">
+          <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-2">Own the IP</div>
+          <div class="font-display font-medium text-xl sm:text-2xl text-green-700">Yes <span class="text-sm text-ink/40">vs</span> <span class="text-ink/70">Licence</span></div>
+        </div>
+        <div class="p-5 sm:p-6">
+          <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-2">Can franchise</div>
+          <div class="font-display font-medium text-xl sm:text-2xl text-green-700">Yes <span class="text-sm text-ink/40">vs</span> <span class="text-ink/70">No</span></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
-</div>
-</div>
 
-<!-- MODULE 07 — AI -->
-<div style="background:var(--white); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="slide-inner">
-    <div>
-      <div class="mod-eyebrow">Module 07 of 13</div>
-      <h2 class="mod-title">Smart<br>Attendance & Stock</h2>
-      <p class="mod-tagline">Smarter attendance. Smarter inventory.</p>
-      <p class="mod-desc">Staff punch in by scanning their face on a wall tablet — no cards, no punching in for someone else. The system also learns from your sales history and tells you which parts to reorder before they actually run out — not after a customer has already waited.</p>
-      <ul class="feat-list">
-        <li>Face scan check-in — no buddy punching</li>
-        <li>GPS check confirms staff are on-site</li>
-        <li>Monthly attendance report ready for salary processing</li>
-        <li>Predicts low stock based on your actual sales history</li>
-        <li>Flags parts that haven't moved in months</li>
-      </ul>
+<!-- ═══════════════════════════════════════════════════
+     HARDWARE OPTIONS
+═══════════════════════════════════════════════════ -->
+<section class="py-20 sm:py-24 lg:py-32">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12">
+    <div class="max-w-3xl mb-14">
+      <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-4">Hardware &amp; running costs</div>
+      <h2 class="font-display font-medium tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">
+        Two ways to handle <span class="font-display-italic text-ink/40">equipment.</span>
+      </h2>
+      <p class="text-base sm:text-lg text-ink/60 mt-6">
+        The software build does not include physical hardware. You choose how to handle it.
+      </p>
     </div>
-    <div class="mod-aside">
-      <div class="price-box">
-        <div class="pb-label">Investment</div>
-        <div class="pb-amount">₹4,50,000</div>
-        <div class="pb-sub">One-time · Module 07</div>
+
+    <div class="grid md:grid-cols-2 gap-4 sm:gap-6">
+      <!-- Hardware Option A -->
+      <div class="bg-white rounded-3xl p-7 sm:p-8 border border-black/5">
+        <div class="mesh-sky w-14 h-14 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-blue-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-2">Option A</div>
+        <h3 class="font-display font-medium text-2xl sm:text-3xl mb-2">Buy the hardware</h3>
+        <p class="text-sm text-ink/60 mb-6">One-time capital expense. You own every device.</p>
+        <div class="space-y-2 text-sm text-ink/70 border-t border-black/5 pt-5">
+          <div class="flex justify-between"><span>Mechanic tablets</span><span class="font-mono">₹4–6L</span></div>
+          <div class="flex justify-between"><span>Bay cameras</span><span class="font-mono">₹1–1.5L</span></div>
+          <div class="flex justify-between"><span>Advisor devices</span><span class="font-mono">₹1–2L</span></div>
+          <div class="flex justify-between"><span>Display TVs + WiFi</span><span class="font-mono">₹2–4L</span></div>
+        </div>
+        <div class="mt-6 pt-5 border-t border-black/5">
+          <div class="text-xs font-mono uppercase tracking-wider text-ink/50">Estimated one-time</div>
+          <div class="font-display font-medium text-3xl mt-1">₹8–14L</div>
+        </div>
       </div>
-      <div class="time-box">
-        <div class="tb-label">Delivered in</div>
-        <div class="tb-val">3 Weeks</div>
+
+      <!-- Hardware Option B -->
+      <div class="bg-gradient-to-br from-white to-green-50/40 rounded-3xl p-7 sm:p-8 border-2 border-green-300 relative">
+        <span class="absolute -top-3 left-6 bg-gradient-to-r from-green-500 to-teal-500 text-white text-xs font-mono uppercase tracking-widest px-3 py-1 rounded-full">Recommended for 24/7</span>
+        <div class="mesh-mint w-14 h-14 rounded-2xl flex items-center justify-center mb-5 mt-2">
+          <svg class="w-6 h-6 text-green-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        </div>
+        <div class="text-xs font-mono uppercase tracking-wider text-green-700 mb-2">Option B</div>
+        <h3 class="font-display font-medium text-2xl sm:text-3xl mb-2">Lease &amp; outsource</h3>
+        <p class="text-sm text-ink/60 mb-6">Zero capital. Monthly OpEx. Faulty devices replaced by vendor.</p>
+        <ul class="space-y-3 text-sm text-ink/70 border-t border-black/5 pt-5">
+          <li class="flex items-start gap-2"><span class="text-green-600 mt-1">—</span>Hardware leased from vendor</li>
+          <li class="flex items-start gap-2"><span class="text-green-600 mt-1">—</span>Tablet breaks → replaced same day</li>
+          <li class="flex items-start gap-2"><span class="text-green-600 mt-1">—</span>Predictable monthly budget</li>
+          <li class="flex items-start gap-2"><span class="text-green-600 mt-1">—</span>We help negotiate vendor rates</li>
+        </ul>
+        <div class="mt-6 pt-5 border-t border-black/5">
+          <div class="text-xs font-mono uppercase tracking-wider text-green-700">Estimated monthly</div>
+          <div class="font-display font-medium text-3xl mt-1">₹50K–80K<span class="text-sm text-ink/50">/mo</span></div>
+        </div>
       </div>
-      <div class="phase-box p2">
-        <span class="dot"></span> Phase 2 · Month 4
+    </div>
+
+    <div class="mt-8 p-5 sm:p-6 bg-cream rounded-2xl border border-black/5 text-xs sm:text-sm text-ink/60 leading-relaxed">
+      <strong class="text-ink font-medium">What's always yours regardless:</strong> the software, the codebase, the app store accounts, the domain, and all customer data. Third-party API costs (WhatsApp, streaming, SMS) are billed directly to your accounts at provider rates — never marked up.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FAQ
+═══════════════════════════════════════════════════ -->
+<section id="faq" class="py-20 sm:py-24 lg:py-32 bg-white border-y border-black/5">
+  <div class="max-w-4xl mx-auto px-5 sm:px-8 lg:px-12">
+    <div class="text-center mb-14">
+      <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-4">Frequently asked</div>
+      <h2 class="font-display font-medium tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">
+        Questions, <span class="font-display-italic text-ink/40">answered.</span>
+      </h2>
+    </div>
+    <div class="space-y-3">
+      <details class="group bg-cream rounded-2xl p-5 sm:p-6 border border-black/5 cursor-pointer">
+        <summary class="flex justify-between items-center font-medium text-sm sm:text-base list-none">
+          <span>What happens after the 3-month free support ends?</span>
+          <span class="text-ink/40 group-open:rotate-45 transition-transform text-xl">+</span>
+        </summary>
+        <p class="mt-4 text-sm text-ink/60 leading-relaxed">In Option A (buyout), you're free to handle maintenance yourself, hire anyone, or keep us on a retainer. In Option B, the ₹2L/year licence fee covers all maintenance, bug fixes, and updates.</p>
+      </details>
+      <details class="group bg-cream rounded-2xl p-5 sm:p-6 border border-black/5 cursor-pointer">
+        <summary class="flex justify-between items-center font-medium text-sm sm:text-base list-none">
+          <span>Can I start with Option B and upgrade to full buyout later?</span>
+          <span class="text-ink/40 group-open:rotate-45 transition-transform text-xl">+</span>
+        </summary>
+        <p class="mt-4 text-sm text-ink/60 leading-relaxed">Yes. Your ₹20L paid under Option B is credited against the ₹40L buyout price. You'd pay ₹20L at that point to own the software outright.</p>
+      </details>
+      <details class="group bg-cream rounded-2xl p-5 sm:p-6 border border-black/5 cursor-pointer">
+        <summary class="flex justify-between items-center font-medium text-sm sm:text-base list-none">
+          <span>What if I need custom features later?</span>
+          <span class="text-ink/40 group-open:rotate-45 transition-transform text-xl">+</span>
+        </summary>
+        <p class="mt-4 text-sm text-ink/60 leading-relaxed">New features are scoped separately and quoted by complexity. Small tweaks are included in the Option B retainer. Major new modules are quoted individually.</p>
+      </details>
+      <details class="group bg-cream rounded-2xl p-5 sm:p-6 border border-black/5 cursor-pointer">
+        <summary class="flex justify-between items-center font-medium text-sm sm:text-base list-none">
+          <span>How are API costs handled?</span>
+          <span class="text-ink/40 group-open:rotate-45 transition-transform text-xl">+</span>
+        </summary>
+        <p class="mt-4 text-sm text-ink/60 leading-relaxed">WhatsApp, video streaming, and SMS are billed directly to your accounts at provider rates. We never mark these up or take a cut.</p>
+      </details>
+      <details class="group bg-cream rounded-2xl p-5 sm:p-6 border border-black/5 cursor-pointer">
+        <summary class="flex justify-between items-center font-medium text-sm sm:text-base list-none">
+          <span>Why is this cheaper than a Mumbai agency?</span>
+          <span class="text-ink/40 group-open:rotate-45 transition-transform text-xl">+</span>
+        </summary>
+        <p class="mt-4 text-sm text-ink/60 leading-relaxed">We run lean by design — no office overhead, no account management layer, no sales team. That's why the same platform that costs ₹85L at an agency lands at ₹40L with us, without compromising on quality.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CTA
+═══════════════════════════════════════════════════ -->
+<section id="contact" class="py-20 sm:py-24 lg:py-32">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 lg:px-12">
+    <div class="relative bg-ink rounded-3xl p-8 sm:p-12 lg:p-16 overflow-hidden">
+      <div class="absolute -top-20 -right-20 w-96 h-96 rounded-full mesh-peach opacity-20 blur-3xl"></div>
+      <div class="absolute -bottom-20 -left-20 w-96 h-96 rounded-full mesh-lilac opacity-20 blur-3xl"></div>
+      <div class="relative text-center">
+        <h2 class="font-display font-medium tracking-tight text-3xl sm:text-5xl lg:text-6xl leading-[1.05] text-cream mb-6">
+          Ready to run the most <span class="font-display-italic bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent">modern workshop in India?</span>
+        </h2>
+        <p class="text-base sm:text-lg text-cream/60 max-w-2xl mx-auto mb-10">
+          Book a 30-minute walkthrough of the platform. See exactly how it will run your 50-bay operation.
+        </p>
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
+          <a href="mailto:hello@truework24.com" class="bg-cream text-ink text-center px-6 py-3.5 rounded-full font-semibold text-sm hover:bg-white transition-colors">Book a demo →</a>
+          <a href="tel:+919999999999" class="text-cream border border-cream/20 text-center px-6 py-3.5 rounded-full font-semibold text-sm hover:bg-cream/5 transition-colors">Call us</a>
+        </div>
       </div>
     </div>
   </div>
 </section>
-</div>
-</div>
 
-<!-- MODULE 09 — BOOKING + QUOTATION -->
-<div style="background:var(--cream); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="slide-inner">
-    <div>
-      <div class="mod-eyebrow">Module 09 of 13</div>
-      <h2 class="mod-title">Booking &<br>Quote System</h2>
-      <p class="mod-tagline">Customers book their slot. You quote the job. All digital.</p>
-      <p class="mod-desc">Customers pick a date and time from available slots in the app or website. For bigger repair jobs — accidental damage, engine work — you generate a quoted estimate, send it to their WhatsApp, and they approve it before a single rupee of work begins. No verbal misunderstandings.</p>
-      <ul class="feat-list">
-        <li>Online slot booking with real bay capacity limits</li>
-        <li>Home pickup or workshop drop-in option</li>
-        <li>Booking flows directly into the service advisor's screen</li>
-        <li>Digital estimate with itemised parts and labour</li>
-        <li>Quote sent via WhatsApp — customer approves digitally</li>
-        <li>PDF quote export for major repair jobs</li>
-      </ul>
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════ -->
+<footer class="border-t border-black/5 py-10">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-2 font-display font-semibold text-lg">
+      <span class="inline-block w-5 h-5 rounded-md bg-gradient-to-br from-orange-400 to-pink-400"></span>
+      TrueWork<span class="font-display-italic text-orange-500">24</span>
     </div>
-    <div class="mod-aside">
-      <div class="price-box">
-        <div class="pb-label">Investment</div>
-        <div class="pb-amount">₹3,50,000</div>
-        <div class="pb-sub">One-time · Module 09</div>
-      </div>
-      <div class="time-box">
-        <div class="tb-label">Delivered in</div>
-        <div class="tb-val">3 Weeks</div>
-      </div>
-      <div class="phase-box p2">
-        <span class="dot"></span> Phase 2 · Month 4
-      </div>
-    </div>
+    <div class="text-xs font-mono text-ink/40">Build proposal · 2026 · Confidential</div>
   </div>
-</section>
-</div>
-</div>
+</footer>
 
-<!-- MODULE 10 — WEBSITE -->
-<div style="background:var(--white); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="slide-inner">
-    <div>
-      <div class="mod-eyebrow">Module 10 of 13</div>
-      <h2 class="mod-title">TrueWork24<br>Website</h2>
-      <p class="mod-tagline">Your workshop, findable online.</p>
-      <p class="mod-desc">A clean, professional website at TrueWork24.com that shows your services, customer reviews, and a booking button that connects directly to your live slot calendar. When someone searches for a motorcycle service centre in your area, this is what they find.</p>
-      <ul class="feat-list">
-        <li>Professional single-page brand website</li>
-        <li>Services, pricing tiers, and trust signals</li>
-        <li>Booking button — connects live to your slot calendar</li>
-        <li>Contact button routes to your WhatsApp</li>
-        <li>Mobile-first, fast-loading, SEO-ready</li>
-      </ul>
-    </div>
-    <div class="mod-aside">
-      <div class="price-box">
-        <div class="pb-label">Investment</div>
-        <div class="pb-amount">₹1,50,000</div>
-        <div class="pb-sub">One-time · Module 10</div>
-      </div>
-      <div class="time-box">
-        <div class="tb-label">Delivered in</div>
-        <div class="tb-val">1 Week</div>
-      </div>
-      <div class="phase-box p2">
-        <span class="dot"></span> Phase 2 · Month 5
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-</div>
+<!-- ═══════════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════════ -->
+<script>
+  // Mobile menu toggle
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-nav');
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('closed');
+    menu.classList.toggle('open');
+  });
+  // Close mobile menu when clicking a link
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    menu.classList.add('closed');
+    menu.classList.remove('open');
+  }));
 
-<!-- MODULE 12 — QA -->
-<div style="background:var(--cream); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="slide-inner">
-    <div>
-      <div class="mod-eyebrow">Module 12 of 13</div>
-      <h2 class="mod-title">Testing &<br>Quality Checks</h2>
-      <p class="mod-tagline">Shipped right, not just shipped.</p>
-      <p class="mod-desc">Every GST calculation verified against real invoice scenarios. Every staff role's access tested to confirm no one sees what they shouldn't. The live video tested on your actual workshop network. App store submissions handled. This runs continuously across all 5 months — not at the end.</p>
-      <ul class="feat-list">
-        <li>GST calculation verified against real scenarios</li>
-        <li>Staff access tested — no data leaks between roles</li>
-        <li>Live stream tested on workshop network bandwidth</li>
-        <li>App tested across Android phones and iPhones</li>
-        <li>Google Play and Apple App Store submission</li>
-      </ul>
-    </div>
-    <div class="mod-aside">
-      <div class="price-box">
-        <div class="pb-label">Investment</div>
-        <div class="pb-amount">₹3,50,000</div>
-        <div class="pb-sub">Continuous · 5 Months</div>
-      </div>
-      <div class="time-box">
-        <div class="tb-label">Duration</div>
-        <div class="tb-val">All 5 Months</div>
-      </div>
-      <div class="phase-box infra">
-        <span class="dot"></span> Continuous
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-</div>
-
-<!-- MODULE 13 — SUPPORT -->
-<div style="background:var(--white); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="slide-inner">
-    <div>
-      <div class="mod-eyebrow">Module 13 of 13</div>
-      <h2 class="mod-title">3 Months<br>After Launch</h2>
-      <p class="mod-tagline">Three months on call, completely free.</p>
-      <p class="mod-desc">The first 90 days after launch are included at no charge — our commitment that you go live with confidence. Bugs fixed within 24–72 hours, server monitored, staff feedback actioned. After Month 8, a simple ₹1,00,000/month retainer keeps everything running and growing.</p>
-      <ul class="feat-list">
-        <li>Critical bugs fixed within 24 hours</li>
-        <li>Standard fixes within 72 hours</li>
-        <li>Server monitored around the clock</li>
-        <li>Up to 8 hours of small changes per month</li>
-        <li>Flat monthly fee — no per-hour billing surprises</li>
-      </ul>
-    </div>
-    <div class="mod-aside">
-      <div class="price-box" style="border-color:#B8D4A8; background:#F2FAF0;">
-        <div class="pb-label" style="color:#2A6044;">Complimentary</div>
-        <div class="pb-amount" style="color:#1E5C3A;">FREE</div>
-        <div class="pb-sub">₹3,00,000 value — included</div>
-      </div>
-      <div class="time-box">
-        <div class="tb-label">Duration</div>
-        <div class="tb-val">Months 6–8</div>
-      </div>
-      <div class="phase-box p1">
-        <span class="dot"></span> Included with Bundle
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-</div>
-
-
-<!-- MODULE 14 — MARKETING -->
-<div style="background:var(--cream); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="slide-inner">
-    <div>
-      <div class="mod-eyebrow">Module 14 of 14</div>
-      <h2 class="mod-title">Digital Marketing<br>Launch Package</h2>
-      <p class="mod-tagline">Get your first 100 customers through the door.</p>
-      <p class="mod-desc">Building the platform is half the job. This package ensures TrueWork24 is visible to motorcycle owners in your area from day one. Covers 3 months of managed social media, Google presence setup, and a launch campaign designed to drive bookings directly into the new system.</p>
-      <ul class="feat-list">
-        <li>Instagram & Facebook page setup and 3 months management</li>
-        <li>Google Business Profile setup and optimisation</li>
-        <li>Launch campaign — Meta & Google Ads (ad spend billed separately)</li>
-        <li>Monthly content creation — posts, reels, and service highlights</li>
-        <li>Performance report every month — reach, bookings, cost per customer</li>
-        <li>WhatsApp broadcast setup for existing customer base</li>
-      </ul>
-    </div>
-    <div class="mod-aside">
-      <div class="price-box">
-        <div class="pb-label">Investment</div>
-        <div class="pb-amount">₹2,50,000</div>
-        <div class="pb-sub">3-month launch package</div>
-      </div>
-      <div class="time-box">
-        <div class="tb-label">Duration</div>
-        <div class="tb-val">Months 4–6</div>
-      </div>
-      <div class="phase-box infra">
-        <span class="dot"></span> Optional Add-on
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-</div>
-
-<!-- ═══ TIMELINE DIVIDER ═══ -->
-<div class="divider" id="timeline">
-  <div class="divider-inner">
-    <div class="div-line"></div>
-    <div class="div-title" style="color:var(--yellow);">Build Timeline — 5 Months</div>
-    <div class="div-line"></div>
-  </div>
-</div>
-
-<!-- TIMELINE SLIDE -->
-<div style="background:var(--cream); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="summary-slide">
-  <div class="section-eyebrow">Delivery Schedule</div>
-  <h2 class="section-title">Month by Month</h2>
-  <p class="section-sub">What goes live, and when.</p>
-  <div class="tl-scroll"><div class="timeline-grid">
-    <!-- Header -->
-    <div class="tg-head" style="border-right:1px solid var(--rule);">Module</div>
-    <div class="tg-head">Month 1</div>
-    <div class="tg-head">Month 2</div>
-    <div class="tg-head">Month 3</div>
-    <div class="tg-head">Month 4</div>
-    <div class="tg-head">Month 5</div>
-    <!-- Server -->
-    <div class="tg-name">11 — Server Setup</div>
-    <div class="tg-cell" style="grid-column:span 1;"><div class="tg-bar p1">Setup</div></div>
-    <div class="tg-cell"></div><div class="tg-cell"></div><div class="tg-cell"></div><div class="tg-cell"></div>
-    <!-- Billing -->
-    <div class="tg-name">01 — Billing & Operations</div>
-    <div class="tg-cell" style="grid-column:span 2;"><div class="tg-bar p1 span2">Build</div></div>
-    <div class="tg-cell"></div><div class="tg-cell"></div><div class="tg-cell"></div>
-    <!-- Advisor / Mechanic -->
-    <div class="tg-name">02 — Advisor & Mechanic</div>
-    <div class="tg-cell"></div>
-    <div class="tg-cell"><div class="tg-bar p1">Build</div></div>
-    <div class="tg-cell"></div><div class="tg-cell"></div><div class="tg-cell"></div>
-    <!-- Owner Dashboard -->
-    <div class="tg-name">03 — Owner Dashboard</div>
-    <div class="tg-cell"></div>
-    <div class="tg-cell"><div class="tg-bar p1">Build</div></div>
-    <div class="tg-cell"></div><div class="tg-cell"></div><div class="tg-cell"></div>
-    <!-- Notifications -->
-    <div class="tg-name">08 — Customer Alerts</div>
-    <div class="tg-cell"></div>
-    <div class="tg-cell"><div class="tg-bar p1">Build</div></div>
-    <div class="tg-cell"></div><div class="tg-cell"></div><div class="tg-cell"></div>
-    <!-- Milestone 1 -->
-    <div class="tg-milestone p1">✓ Core Operations Live — End of Month 2</div>
-    <!-- Android -->
-    <div class="tg-name">04 — Android App</div>
-    <div class="tg-cell"></div><div class="tg-cell"></div>
-    <div class="tg-cell"><div class="tg-bar p2">Build</div></div>
-    <div class="tg-cell"></div><div class="tg-cell"></div>
-    <!-- iOS -->
-    <div class="tg-name">05 — iPhone App</div>
-    <div class="tg-cell"></div><div class="tg-cell"></div>
-    <div class="tg-cell"><div class="tg-bar p2">Build</div></div>
-    <div class="tg-cell"></div><div class="tg-cell"></div>
-    <!-- Streaming -->
-    <div class="tg-name">06 — Live Camera Feed</div>
-    <div class="tg-cell"></div><div class="tg-cell"></div>
-    <div class="tg-cell"><div class="tg-bar p2">Build</div></div>
-    <div class="tg-cell"></div><div class="tg-cell"></div>
-    <!-- AI -->
-    <div class="tg-name">07 — Attendance & Stock AI</div>
-    <div class="tg-cell"></div><div class="tg-cell"></div><div class="tg-cell"></div>
-    <div class="tg-cell"><div class="tg-bar p2">Build</div></div>
-    <div class="tg-cell"></div>
-    <!-- Booking -->
-    <div class="tg-name">09 — Booking & Quotes</div>
-    <div class="tg-cell"></div><div class="tg-cell"></div><div class="tg-cell"></div>
-    <div class="tg-cell"><div class="tg-bar p2">Build</div></div>
-    <div class="tg-cell"></div>
-    <!-- Website -->
-    <div class="tg-name">10 — Website</div>
-    <div class="tg-cell"></div><div class="tg-cell"></div><div class="tg-cell"></div><div class="tg-cell"></div>
-    <div class="tg-cell"><div class="tg-bar p2">Build</div></div>
-    <!-- QA -->
-    <div class="tg-name">12 — Testing & QA</div>
-    <div class="tg-cell" style="grid-column:span 5; padding:5px 4px;"><div class="tg-bar am" style="width:100%;">Continuous Throughout All 5 Months</div></div>
-    <!-- Milestone 2 -->
-    <div class="tg-milestone p2">✓ Full Platform Live — End of Month 5</div>
-  </div></div>
-</section>
-</div>
-</div>
-
-<!-- ═══ PRICING DIVIDER ═══ -->
-<div class="divider" id="pricing">
-  <div class="divider-inner">
-    <div class="div-line"></div>
-    <div class="div-title" style="color:var(--yellow);">Pricing Summary</div>
-    <div class="div-line"></div>
-  </div>
-</div>
-
-<!-- PRICING SLIDE -->
-<div style="background:var(--white); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="summary-slide">
-  <div class="section-eyebrow">Complete Investment Breakdown</div>
-  <h2 class="section-title">What You're<br>Investing In</h2>
-  <p class="section-sub">Every module, its delivery timeline, and its cost.</p>
-  <div class="table-scroll"><table class="summary">
-    <thead>
-      <tr>
-        <th style="width:36px;">#</th>
-        <th>Module</th>
-        <th>Phase</th>
-        <th>Time</th>
-        <th>Cost</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="td-num">01</td>
-        <td><span class="td-name">Billing & Operations Hub</span><br><span style="font-size:11px;color:var(--ink3);">Invoicing, inventory, job cards, barcode billing</span></td>
-        <td><span class="td-phase p1">Phase 1</span></td>
-        <td class="td-time">4 weeks</td>
-        <td class="td-cost">₹6,00,000</td>
-      </tr>
-      <tr>
-        <td class="td-num">02</td>
-        <td><span class="td-name">Advisor & Mechanic Panel</span><br><span style="font-size:11px;color:var(--ink3);">Service desk + floor mechanic interface</span></td>
-        <td><span class="td-phase p1">Phase 1</span></td>
-        <td class="td-time">2 weeks</td>
-        <td class="td-cost">₹2,80,000</td>
-      </tr>
-      <tr>
-        <td class="td-num">03</td>
-        <td><span class="td-name">Owner & Manager View</span><br><span style="font-size:11px;color:var(--ink3);">Revenue, SLA, staff performance dashboard</span></td>
-        <td><span class="td-phase p1">Phase 1</span></td>
-        <td class="td-time">2 weeks</td>
-        <td class="td-cost">₹2,40,000</td>
-      </tr>
-      <tr>
-        <td class="td-num">08</td>
-        <td><span class="td-name">Customer Alerts System</span><br><span style="font-size:11px;color:var(--ink3);">WhatsApp + SMS + internal staff push</span></td>
-        <td><span class="td-phase p1">Phase 1</span></td>
-        <td class="td-time">1.5 weeks</td>
-        <td class="td-cost">₹1,60,000</td>
-      </tr>
-      <tr>
-        <td class="td-num">11</td>
-        <td><span class="td-name">Server & Security Setup</span><br><span style="font-size:11px;color:var(--ink3);">VPS, SSL, Cloudflare, role access</span></td>
-        <td><span class="td-phase infra">Infra</span></td>
-        <td class="td-time">Week 1</td>
-        <td class="td-cost">₹1,20,000</td>
-      </tr>
-      <tr class="subtotal">
-        <td colspan="4" style="text-align:right;padding-right:16px;"><span class="subtotal-label">Phase 1 Total</span></td>
-        <td><span class="subtotal-val">₹14,00,000</span></td>
-      </tr>
-      <tr>
-        <td class="td-num">04</td>
-        <td><span class="td-name">Customer Android App</span><br><span style="font-size:11px;color:var(--ink3);">Booking, tracking, live stream, invoices</span></td>
-        <td><span class="td-phase p2">Phase 2</span></td>
-        <td class="td-time">5 weeks</td>
-        <td class="td-cost">₹5,00,000</td>
-      </tr>
-      <tr>
-        <td class="td-num">05</td>
-        <td><span class="td-name">Customer iPhone App</span><br><span style="font-size:11px;color:var(--ink3);">Full parity with Android, App Store listed</span></td>
-        <td><span class="td-phase p2">Phase 2</span></td>
-        <td class="td-time">+1 week</td>
-        <td class="td-cost">₹4,00,000</td>
-      </tr>
-      <tr>
-        <td class="td-num">06</td>
-        <td><span class="td-name">Live Service Camera Feed</span><br><span style="font-size:11px;color:var(--ink3);">Per-job secure customer stream in app</span></td>
-        <td><span class="td-phase p2">Phase 2</span></td>
-        <td class="td-time">3 weeks</td>
-        <td class="td-cost">₹5,50,000</td>
-      </tr>
-      <tr>
-        <td class="td-num">07</td>
-        <td><span class="td-name">Smart Attendance & Stock AI</span><br><span style="font-size:11px;color:var(--ink3);">Face recognition + inventory prediction</span></td>
-        <td><span class="td-phase p2">Phase 2</span></td>
-        <td class="td-time">3 weeks</td>
-        <td class="td-cost">₹4,50,000</td>
-      </tr>
-      <tr>
-        <td class="td-num">09</td>
-        <td><span class="td-name">Booking & Quotation System</span><br><span style="font-size:11px;color:var(--ink3);">Slot management, digital approval flow</span></td>
-        <td><span class="td-phase p2">Phase 2</span></td>
-        <td class="td-time">3 weeks</td>
-        <td class="td-cost">₹3,50,000</td>
-      </tr>
-      <tr>
-        <td class="td-num">10</td>
-        <td><span class="td-name">TrueWork24 Website</span><br><span style="font-size:11px;color:var(--ink3);">Brand site, booking CTA, SEO-ready</span></td>
-        <td><span class="td-phase p2">Phase 2</span></td>
-        <td class="td-time">1 week</td>
-        <td class="td-cost">₹1,50,000</td>
-      </tr>
-      <tr>
-        <td class="td-num">12</td>
-        <td><span class="td-name">Testing & Quality Assurance</span><br><span style="font-size:11px;color:var(--ink3);">Continuous across all 5 months</span></td>
-        <td><span class="td-phase infra">Continuous</span></td>
-        <td class="td-time">5 months</td>
-        <td class="td-cost">₹3,50,000</td>
-      </tr>
-      <tr>
-        <td class="td-num">13</td>
-        <td><span class="td-name">3 Months Post-Launch Support</span><br><span style="font-size:11px;color:var(--ink3);">Priority fixes, monitoring, minor updates</span></td>
-        <td><span class="td-phase infra">Post-Launch</span></td>
-        <td class="td-time" style="color:#1E5C3A;">Included</td>
-        <td class="td-cost" style="color:#1E5C3A;font-size:18px;">FREE</td>
-      </tr>
-      <tr class="subtotal">
-        <td colspan="4" style="text-align:right;padding-right:16px;"><span class="subtotal-label">Phase 2 Total</span></td>
-        <td><span class="subtotal-val">₹30,50,000</span></td>
-      </tr>
-      <tr>
-        <td class="td-num">14</td>
-        <td><span class="td-name">Digital Marketing Launch Package</span><br><span style="font-size:11px;color:var(--ink3);">Social, Google, ads management — 3 months</span></td>
-        <td><span class="td-phase infra">Add-on</span></td>
-        <td class="td-time">3 months</td>
-        <td class="td-cost">₹2,50,000</td>
-      </tr>
-      <tr class="subtotal">
-        <td colspan="4" style="text-align:right;padding-right:16px;"><span class="subtotal-label">Add-on Subtotal</span></td>
-        <td><span class="subtotal-val">₹2,50,000</span></td>
-      </tr>
-
-    </tbody>
-  </table></div>
-  <div class="totals-grid">
-    <div class="total-card main">
-      <div class="tc-label">A La Carte — All 14 Modules</div>
-      <div class="tc-amount">₹47,00,000</div>
-      <div class="tc-note">All 14 modules · 3 months support free</div>
-    </div>
-    <div class="total-card bundle">
-      <div class="tc-label">Full System Bundle</div>
-      <div class="tc-amount">₹40,50,000</div>
-      <div class="tc-save">Includes ₹3,00,000 support free · Save ₹6,50,000</div>
-    </div>
-  </div>
-  <div class="disclaimer">
-    <strong>Note on third-party costs:</strong> Streaming minutes (camera service), WhatsApp messages, SMS credits, and cloud server monthly charges are billed directly to client accounts at provider rates — these are not included in the above and vary based on usage volume.
-  </div>
-</section>
-</div>
-</div>
-
-
-
-<!-- ═══ SECTION DIVIDER: VALUE ═══ -->
-<div class="divider">
-  <div class="divider-inner">
-    <div class="div-line"></div>
-    <div class="div-title" style="color:var(--yellow);">Why This Is A Deal</div>
-    <div class="div-line"></div>
-  </div>
-</div>
-
-<!-- VALUE COMPARISON SLIDE -->
-<div style="background:var(--white); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="mod-eyebrow" style="margin-bottom:12px;">Market Context</div>
-  <h2 class="section-title" style="margin-bottom:6px;">What the market<br>would charge you.</h2>
-  <p class="section-sub">The same system, priced three different ways.</p>
-
-  <div class="rg-3" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; margin-bottom:40px;">
-
-    <!-- Option A: Agency -->
-    <div style="border:1px solid var(--rule); padding:28px 24px; background:var(--cream); position:relative;">
-      <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink3); margin-bottom:14px;">Mumbai Design Agency</div>
-      <div style="font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:400; color:var(--ink3); line-height:1; margin-bottom:6px; text-decoration:line-through;">₹85L+</div>
-      <div style="font-size:12px; color:var(--ink3); line-height:1.7; margin-bottom:16px;">Lemon Yellow, Indiez, Appinventiv-tier agency for this feature scope.</div>
-      <ul style="list-style:none;">
-        <li style="font-size:12px; color:var(--ink3); padding:6px 0; border-bottom:1px solid var(--rule); display:flex; gap:8px;"><span style="color:#C0392B;">✕</span> You don't own the IP until full payment</li>
-        <li style="font-size:12px; color:var(--ink3); padding:6px 0; border-bottom:1px solid var(--rule); display:flex; gap:8px;"><span style="color:#C0392B;">✕</span> 12–18 month timelines typical</li>
-        <li style="font-size:12px; color:var(--ink3); padding:6px 0; display:flex; gap:8px;"><span style="color:#C0392B;">✕</span> Scope creep = surprise invoices</li>
-      </ul>
-    </div>
-
-    <!-- Option B: SaaS -->
-    <div style="border:1px solid var(--rule); padding:28px 24px; background:var(--cream); position:relative;">
-      <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink3); margin-bottom:14px;">Off-The-Shelf SaaS (5 Years)</div>
-      <div style="font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:400; color:var(--ink3); line-height:1; margin-bottom:6px; text-decoration:line-through;">₹28L+</div>
-      <div style="font-size:12px; color:var(--ink3); line-height:1.7; margin-bottom:16px;">Autorox + attendance tool + booking software + separate app. Recurring forever.</div>
-      <ul style="list-style:none;">
-        <li style="font-size:12px; color:var(--ink3); padding:6px 0; border-bottom:1px solid var(--rule); display:flex; gap:8px;"><span style="color:#C0392B;">✕</span> You own nothing at the end</li>
-        <li style="font-size:12px; color:var(--ink3); padding:6px 0; border-bottom:1px solid var(--rule); display:flex; gap:8px;"><span style="color:#C0392B;">✕</span> No live streaming. No AI. No custom app.</li>
-        <li style="font-size:12px; color:var(--ink3); padding:6px 0; display:flex; gap:8px;"><span style="color:#C0392B;">✕</span> Branded as their software, not yours</li>
-      </ul>
-    </div>
-
-    <!-- Option C: TrueWork24 -->
-    <div style="border:2px solid var(--gold); padding:28px 24px; background:var(--gold-bg); position:relative;">
-      <div style="position:absolute; top:-11px; left:24px; background:var(--gold); padding:2px 12px; font-family:'DM Mono',monospace; font-size:8px; letter-spacing:.14em; text-transform:uppercase; color:var(--white);">THIS PROPOSAL</div>
-      <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:14px;">TrueWork24 Custom Build</div>
-      <div style="font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:400; color:var(--ink); line-height:1; margin-bottom:6px;">₹40.5L</div>
-      <div style="font-size:12px; color:var(--ink2); line-height:1.7; margin-bottom:16px;">One-time. You own it outright. Your brand. Forever.</div>
-      <ul style="list-style:none;">
-        <li style="font-size:12px; color:var(--ink2); padding:6px 0; border-bottom:1px solid #E8D98A; display:flex; gap:8px;"><span style="color:var(--p1);">✓</span> Full IP ownership from day one</li>
-        <li style="font-size:12px; color:var(--ink2); padding:6px 0; border-bottom:1px solid #E8D98A; display:flex; gap:8px;"><span style="color:var(--p1);">✓</span> Live camera, AI, custom apps — all included</li>
-        <li style="font-size:12px; color:var(--ink2); padding:6px 0; border-bottom:1px solid #E8D98A; display:flex; gap:8px;"><span style="color:var(--p1);">✓</span> 3 months free support after launch</li>
-        <li style="font-size:12px; color:var(--ink2); padding:6px 0; display:flex; gap:8px;"><span style="color:var(--p1);">✓</span> No monthly licence. No vendor lock-in.</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Break-even math -->
-  <div style="background:var(--cream); border:1px solid var(--rule); padding:24px 32px;"><div class="rg-break" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0;">
-    <div style="padding-right:32px; border-right:1px solid var(--rule);">
-      <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink3); margin-bottom:6px;">Break-even vs SaaS</div>
-      <div style="font-family:'Cormorant Garamond',serif; font-size:32px; color:var(--ink);">Month 18</div>
-      <div style="font-size:11px; color:var(--ink3);">After 18 months you're paying nothing. SaaS pays forever.</div>
-    </div>
-    <div style="padding:0 32px; border-right:1px solid var(--rule);">
-      <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink3); margin-bottom:6px;">5-Year Saving vs SaaS</div>
-      <div style="font-family:'Cormorant Garamond',serif; font-size:32px; color:var(--p1);">₹12L+</div>
-      <div style="font-size:11px; color:var(--ink3);">Money saved by not paying recurring fees.</div>
-    </div>
-    <div style="padding-left:32px;">
-      <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink3); margin-bottom:6px;">Features unavailable elsewhere</div>
-      <div style="font-family:'Cormorant Garamond',serif; font-size:32px; color:var(--ink);">3 of 14</div>
-      <div style="font-size:11px; color:var(--ink3);">Live stream, AI attendance, custom-branded app. No SaaS offers all three.</div>
-    </div>
-  </div>
-</section>
-</div>
-</div>
-
-<!-- ═══ SECTION DIVIDER: POST-LAUNCH ═══ -->
-<div class="divider">
-  <div class="divider-inner">
-    <div class="div-line"></div>
-    <div class="div-title" style="color:var(--yellow);">Post-Launch Model</div>
-    <div class="div-line"></div>
-  </div>
-</div>
-
-<!-- POST-LAUNCH GROWTH MODEL -->
-<div style="background:var(--cream); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="mod-eyebrow" style="margin-bottom:12px;">After You Go Live</div>
-  <h2 class="section-title" style="margin-bottom:6px;">How we grow<br>together.</h2>
-  <p class="section-sub">Simple, predictable pricing. No surprises.</p>
-
-  <div class="rg-2" style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:32px;">
-
-    <!-- Free period -->
-    <div style="background:var(--white); border:1px solid var(--rule); padding:28px 28px; border-top:3px solid var(--p1);">
-      <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--p1); margin-bottom:12px;">Months 6 · 7 · 8</div>
-      <div style="font-family:'Cormorant Garamond',serif; font-size:42px; font-weight:400; line-height:1; color:var(--p1); margin-bottom:6px;">FREE</div>
-      <div style="font-size:13px; color:var(--ink2); margin-bottom:16px; font-family:'Cormorant Garamond',serif; font-style:italic;">3 months complimentary support — included.</div>
-      <ul style="list-style:none;">
-        <li style="font-size:13px; color:var(--ink2); padding:8px 0; border-bottom:1px solid var(--rule); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--p1); font-size:11px;">—</span>Critical bugs fixed within 24 hours</li>
-        <li style="font-size:13px; color:var(--ink2); padding:8px 0; border-bottom:1px solid var(--rule); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--p1); font-size:11px;">—</span>Standard issues resolved within 72 hours</li>
-        <li style="font-size:13px; color:var(--ink2); padding:8px 0; border-bottom:1px solid var(--rule); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--p1); font-size:11px;">—</span>Server monitoring and performance tuning</li>
-        <li style="font-size:13px; color:var(--ink2); padding:8px 0; display:flex; gap:10px; align-items:baseline;"><span style="color:var(--p1); font-size:11px;">—</span>Staff training and onboarding support</li>
-      </ul>
-    </div>
-
-    <!-- Monthly retainer -->
-    <div style="background:var(--white); border:1px solid var(--rule); padding:28px 28px; border-top:3px solid var(--gold);">
-      <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:#8A6C00; margin-bottom:12px;">Month 9 Onwards</div>
-      <div style="font-family:'Cormorant Garamond',serif; font-size:42px; font-weight:400; line-height:1; color:var(--ink); margin-bottom:6px;">₹1,00,000<span style="font-size:20px; color:var(--ink3);">/mo</span></div>
-      <div style="font-size:13px; color:var(--ink2); margin-bottom:16px; font-family:'Cormorant Garamond',serif; font-style:italic;">Monthly retainer — cancel any time.</div>
-      <ul style="list-style:none;">
-        <li style="font-size:13px; color:var(--ink2); padding:8px 0; border-bottom:1px solid var(--rule); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold); font-size:11px;">—</span>All bug fixes and platform maintenance</li>
-        <li style="font-size:13px; color:var(--ink2); padding:8px 0; border-bottom:1px solid var(--rule); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold); font-size:11px;">—</span>Security updates and OS compatibility</li>
-        <li style="font-size:13px; color:var(--ink2); padding:8px 0; border-bottom:1px solid var(--rule); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold); font-size:11px;">—</span>Up to 6 hours of minor tweaks per month</li>
-        <li style="font-size:13px; color:var(--ink2); padding:8px 0; display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold); font-size:11px;">—</span>Priority response line — direct access</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Feature addition pricing -->
-  <div style="background:var(--white); border:1px solid var(--rule); padding:28px 32px;">
-    <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink3); margin-bottom:20px;">Feature Addition Pricing — When You Want to Grow</div>
-    <div class="rg-feat" style="display:grid; grid-template-columns:repeat(3,1fr); gap:0;">
-      <div style="padding:0 28px 0 0; border-right:1px solid var(--rule);">
-        <div style="font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:400; color:var(--ink); margin-bottom:4px;">₹1,00,000</div>
-        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink3); margin-bottom:10px;">Small Feature</div>
-        <div style="font-size:12px; color:var(--ink2); line-height:1.7;">New report type, UI change, new notification template, additional user role, minor workflow tweak.</div>
-      </div>
-      <div style="padding:0 28px; border-right:1px solid var(--rule);">
-        <div style="font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:400; color:var(--ink); margin-bottom:4px;">₹2–5L</div>
-        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink3); margin-bottom:10px;">Medium Feature</div>
-        <div style="font-size:12px; color:var(--ink2); line-height:1.7;">New module — insurance claims, fleet portal, loyalty points system, second location setup, new app screen.</div>
-      </div>
-      <div style="padding:0 0 0 28px;">
-        <div style="font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:400; color:var(--ink); margin-bottom:4px;">Scoped</div>
-        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink3); margin-bottom:10px;">Large Feature</div>
-        <div style="font-size:12px; color:var(--ink2); line-height:1.7;">Full new platform (franchise dashboard, multi-branch rollout, ERP integration). Quoted separately — priced by scope.</div>
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-</div>
-
-<!-- ═══ SECTION DIVIDER: HARDWARE ═══ -->
-<div class="divider">
-  <div class="divider-inner">
-    <div class="div-line"></div>
-    <div class="div-title" style="color:var(--yellow);">Hardware & Running Costs</div>
-    <div class="div-line"></div>
-  </div>
-</div>
-
-<!-- HARDWARE OPTIONS SLIDE -->
-<div style="background:var(--white); border-bottom:1px solid var(--rule);">
-<div class="page">
-<section class="slide">
-  <div class="mod-eyebrow" style="margin-bottom:12px;">Physical Equipment</div>
-  <h2 class="section-title" style="margin-bottom:6px;">Two ways to handle<br>hardware.</h2>
-  <p class="section-sub">The software build cost above does not include physical equipment. Here are your options.</p>
-
-  <div class="rg-2" style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:32px;">
-
-    <!-- Option A: Client Buys -->
-    <div style="border:1px solid var(--rule); padding:28px; background:var(--cream);">
-      <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink3); margin-bottom:6px;">Option A</div>
-      <div style="font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:400; margin-bottom:4px;">You buy the hardware.</div>
-      <div style="font-size:13px; color:var(--ink2); margin-bottom:20px; font-style:italic; font-family:'Cormorant Garamond',serif;">One-time purchase. Your assets.</div>
-      <table style="width:100%; border-collapse:collapse; font-size:12px;">
-        <tr style="border-bottom:1px solid var(--rule);">
-          <td style="padding:9px 0; color:var(--ink2);">Mechanic tablets (Android 10")</td>
-          <td style="padding:9px 0; text-align:right; font-family:'DM Mono',monospace; color:var(--ink);">₹4–6L</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--rule);">
-          <td style="padding:9px 0; color:var(--ink2);">Bay cameras for live stream</td>
-          <td style="padding:9px 0; text-align:right; font-family:'DM Mono',monospace; color:var(--ink);">₹1–1.5L</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--rule);">
-          <td style="padding:9px 0; color:var(--ink2);">Advisor desktops / tablets</td>
-          <td style="padding:9px 0; text-align:right; font-family:'DM Mono',monospace; color:var(--ink);">₹1–2L</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--rule);">
-          <td style="padding:9px 0; color:var(--ink2);">Floor display TVs (bay board)</td>
-          <td style="padding:9px 0; text-align:right; font-family:'DM Mono',monospace; color:var(--ink);">₹1–2L</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--rule);">
-          <td style="padding:9px 0; color:var(--ink2);">Attendance tablet (entrance)</td>
-          <td style="padding:9px 0; text-align:right; font-family:'DM Mono',monospace; color:var(--ink);">₹30–50K</td>
-        </tr>
-        <tr>
-          <td style="padding:9px 0; color:var(--ink2);">Workshop WiFi network</td>
-          <td style="padding:9px 0; text-align:right; font-family:'DM Mono',monospace; color:var(--ink);">₹1–2L</td>
-        </tr>
-      </table>
-      <div style="margin-top:16px; padding:12px 16px; background:var(--white); border:1px solid var(--rule);">
-        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink3); margin-bottom:4px;">Estimated One-Time Hardware</div>
-        <div style="font-family:'Cormorant Garamond',serif; font-size:28px;">₹8 – 14L</div>
-        <div style="font-size:11px; color:var(--ink3); margin-top:2px;">You own all equipment. Depreciate as assets.</div>
-      </div>
-    </div>
-
-    <!-- Option B: Outsource -->
-    <div style="border:2px solid var(--gold); padding:28px; background:var(--gold-bg); position:relative;">
-      <div style="position:absolute; top:-11px; left:24px; background:var(--gold); padding:2px 12px; font-family:'DM Mono',monospace; font-size:8px; letter-spacing:.14em; text-transform:uppercase; color:var(--white);">RECOMMENDED FOR 24/7</div>
-      <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:6px;">Option B</div>
-      <div style="font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:400; margin-bottom:4px;">Lease &amp; outsource.</div>
-      <div style="font-size:13px; color:var(--ink2); margin-bottom:20px; font-style:italic; font-family:'Cormorant Garamond',serif;">Zero upfront. Monthly cost. Hardware replaced when faulty.</div>
-      <ul style="list-style:none;">
-        <li style="font-size:13px; color:var(--ink2); padding:9px 0; border-bottom:1px solid #E8D98A; display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold); font-size:11px;">—</span>Hardware leased from vendor — no capital outlay</li>
-        <li style="font-size:13px; color:var(--ink2); padding:9px 0; border-bottom:1px solid #E8D98A; display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold); font-size:11px;">—</span>Faulty device replaced by vendor, not your problem</li>
-        <li style="font-size:13px; color:var(--ink2); padding:9px 0; border-bottom:1px solid #E8D98A; display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold); font-size:11px;">—</span>Cloud server costs (₹20–40K/month) billed to your account</li>
-        <li style="font-size:13px; color:var(--ink2); padding:9px 0; border-bottom:1px solid #E8D98A; display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold); font-size:11px;">—</span>WhatsApp, SMS, streaming API — billed per use</li>
-        <li style="font-size:13px; color:var(--ink2); padding:9px 0; display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold); font-size:11px;">—</span>Predictable monthly infrastructure budget</li>
-      </ul>
-      <div style="margin-top:16px; padding:12px 16px; background:var(--white); border:1px solid #E8D98A;">
-        <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:#8A6C00; margin-bottom:4px;">Estimated Monthly Running Cost</div>
-        <div style="font-family:'Cormorant Garamond',serif; font-size:28px; color:var(--ink);">₹50K – 80K/mo</div>
-        <div style="font-size:11px; color:var(--ink3); margin-top:2px;">Hardware lease + cloud + APIs. We help you negotiate vendor rates.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- What client pays in either case -->
-  <div style="padding:20px 24px; background:var(--cream); border:1px solid var(--rule); font-size:12px; color:var(--ink3); line-height:1.9;">
-    <strong style="color:var(--ink); font-size:13px; font-weight:400;">What's always yours regardless of hardware option:</strong> The software, the codebase, the app store accounts, the domain, and all customer data. Third-party API costs (WhatsApp messages, video streaming minutes, SMS) are always billed to your accounts at provider rates — never marked up.
-  </div>
-</section>
-</div>
-</div>
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('shown'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+</script>
 
 </body>
 </html>
