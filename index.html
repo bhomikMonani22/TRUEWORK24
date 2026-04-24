@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#FAF7F2">
 <title>TrueWork24 — Complete Workshop OS</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -24,8 +26,16 @@ tailwind.config = {
 }
 </script>
 <style>
-  html, body { overflow-x: hidden; }
-  body { background: #FAF7F2; color: #1A1714; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+  /* Force light mode everywhere — prevents iOS/Android dark mode inversion */
+  :root { color-scheme: light only; }
+  html, body { overflow-x: hidden; background: #FAF7F2 !important; color: #1A1714 !important; }
+  body { background: #FAF7F2 !important; color: #1A1714; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+
+  /* Prevent dark-mode user-agent override in webkit */
+  @media (prefers-color-scheme: dark) {
+    html, body { background: #FAF7F2 !important; color: #1A1714 !important; }
+    section { background-color: inherit; }
+  }
   /* Mesh gradient cards */
   .mesh-peach { background: linear-gradient(135deg, #FFE4D1 0%, #FFD9E2 50%, #FFC8D9 100%); }
   .mesh-lilac { background: linear-gradient(135deg, #E6DFFF 0%, #D8CEFF 50%, #C8BDF5 100%); }
@@ -64,6 +74,44 @@ tailwind.config = {
   .float-slow { animation: floaty 5s ease-in-out infinite; }
   .float-med  { animation: floaty 4s ease-in-out infinite 0.5s; }
   .float-fast { animation: floaty 3.5s ease-in-out infinite 1s; }
+
+  /* Gentle gradient drift — for hero + CTA backgrounds */
+  @keyframes gradient-drift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  .gradient-drift {
+    background-size: 200% 200%;
+    animation: gradient-drift 8s ease-in-out infinite;
+  }
+
+  /* Shimmer on gold accents */
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  .shimmer-text {
+    background: linear-gradient(90deg, #F59E0B 0%, #EC4899 30%, #8B5CF6 50%, #EC4899 70%, #F59E0B 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 6s linear infinite;
+  }
+
+  /* Price card hover glow */
+  .price-card-glow { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+  .price-card-glow:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px -15px rgba(251, 146, 60, 0.25);
+  }
+
+  /* Pulse for CTA buttons */
+  @keyframes soft-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(251, 146, 60, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(251, 146, 60, 0); }
+  }
+  .cta-pulse { animation: soft-pulse 2.5s ease-in-out infinite; }
 
   /* Fade up on scroll — simple version */
   [data-reveal] { opacity: 0; transform: translateY(20px); transition: all 0.7s ease; }
@@ -106,7 +154,7 @@ tailwind.config = {
     </div>
     <div class="hidden md:flex items-center gap-3">
       <a href="#pricing" class="text-sm font-medium text-ink/70 hover:text-ink px-3 py-2">See pricing</a>
-      <a href="#contact" class="text-sm font-semibold bg-ink text-cream px-4 py-2 rounded-full hover:bg-ink/85 transition-colors">Book a demo →</a>
+      <a href="#contact" class="text-sm font-semibold bg-ink text-cream px-4 py-2 rounded-full hover:bg-ink/85 transition-colors cta-pulse">Book a demo →</a>
     </div>
     <button id="menu-btn" class="md:hidden p-2 -mr-2" aria-label="Menu">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -139,7 +187,7 @@ tailwind.config = {
     <!-- Headline -->
     <h1 class="text-center font-display font-medium tracking-tight text-ink leading-[0.95]">
       <span class="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl">One system to run</span>
-      <span class="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl">your <span class="font-display-italic bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">entire workshop.</span></span>
+      <span class="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl">your <span class="font-display-italic shimmer-text">entire workshop.</span></span>
     </h1>
 
     <p class="text-center mt-6 sm:mt-8 text-base sm:text-lg lg:text-xl text-ink/65 max-w-2xl mx-auto leading-relaxed">
@@ -229,7 +277,7 @@ tailwind.config = {
         <div class="text-xs sm:text-sm text-ink/60 mt-2">Full platform by</div>
       </div>
       <div data-reveal>
-        <div class="text-4xl sm:text-5xl lg:text-6xl font-display font-medium tracking-tight bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">100<span class="text-2xl sm:text-3xl text-ink/40">%</span></div>
+        <div class="text-4xl sm:text-5xl lg:text-6xl font-display font-medium tracking-tight shimmer-text">100<span class="text-2xl sm:text-3xl text-ink/40">%</span></div>
         <div class="text-xs sm:text-sm text-ink/60 mt-2">Yours to own</div>
       </div>
     </div>
@@ -239,7 +287,7 @@ tailwind.config = {
 <!-- ═══════════════════════════════════════════════════
      FEATURES HERO
 ═══════════════════════════════════════════════════ -->
-<section id="features" class="py-20 sm:py-24 lg:py-32">
+<section id="features" class="py-20 sm:py-24 lg:py-32 bg-cream">
   <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12">
     <div class="max-w-3xl">
       <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-4">What's included</div>
@@ -491,7 +539,7 @@ tailwind.config = {
 <!-- ═══════════════════════════════════════════════════
      VALUE ANCHOR
 ═══════════════════════════════════════════════════ -->
-<section class="py-20 sm:py-24 lg:py-32">
+<section class="py-20 sm:py-24 lg:py-32 bg-cream">
   <div class="max-w-5xl mx-auto px-5 sm:px-8 lg:px-12">
     <div class="bg-white rounded-3xl border border-black/5 p-8 sm:p-12 lg:p-16 relative overflow-hidden">
       <!-- Decorative gradients -->
@@ -501,7 +549,7 @@ tailwind.config = {
         <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-4">Platform valuation</div>
         <h2 class="font-display font-medium tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.02] mb-6">
           This platform is worth
-          <span class="block mt-2 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500 bg-clip-text text-transparent font-display-italic">₹50,00,000.</span>
+          <span class="block mt-2 shimmer-text font-display-italic">₹50,00,000.</span>
         </h2>
         <p class="text-base sm:text-lg text-ink/65 max-w-2xl mb-8">
           Independently benchmarked against Mumbai agency rates for this feature scope. We're offering it to you two ways — both significantly below market.
@@ -523,169 +571,241 @@ tailwind.config = {
 ═══════════════════════════════════════════════════ -->
 <section id="pricing" class="py-20 sm:py-24 lg:py-32 bg-white border-y border-black/5">
   <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12">
-    <div class="text-center mb-14 sm:mb-20 max-w-3xl mx-auto">
+    <div class="text-center mb-14 sm:mb-16 max-w-3xl mx-auto">
       <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-4">Your options</div>
       <h2 class="font-display font-medium tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">
-        Two ways to own it.
-        <span class="font-display-italic text-ink/40">Both yours.</span>
+        Two platforms.
+        <span class="font-display-italic text-ink/40">Four ways to own.</span>
       </h2>
       <p class="text-base sm:text-lg text-ink/60 mt-6">
-        Pay upfront and own the software outright, or start small and pay in milestones.
+        Both tiers are built by the same team, on premium technology. Choose the scope that fits your operation today — upgrade when you're ready.
       </p>
     </div>
 
-    <!-- Two-option grid -->
-    <div class="grid lg:grid-cols-2 gap-5 lg:gap-6">
-
-      <!-- OPTION A — Full buyout -->
-      <div class="bg-cream rounded-3xl p-8 sm:p-10 border border-black/5 relative">
-        <div class="flex items-start justify-between mb-8">
-          <div>
-            <div class="text-xs font-mono uppercase tracking-widest text-ink/50 mb-2">Option A</div>
-            <h3 class="font-display font-medium text-2xl sm:text-3xl">Complete Buyout</h3>
-          </div>
-          <span class="text-xs font-mono px-3 py-1 bg-white rounded-full text-ink/60 border border-black/5">Best for owners</span>
+    <!-- ═══ TIER 1 — SIGNATURE ═══ -->
+    <div class="mb-16 sm:mb-20">
+      <div class="flex flex-wrap items-baseline justify-between gap-3 mb-8 pb-5 border-b border-black/10">
+        <div>
+          <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-2">Tier 1 · Signature Suite</div>
+          <h3 class="font-display font-medium text-3xl sm:text-4xl">The complete platform.</h3>
+          <p class="text-sm sm:text-base text-ink/60 mt-2 max-w-xl">Every module. Native mobile apps. AI-powered intelligence. Full IP ownership.</p>
         </div>
-
-        <div class="mb-8">
-          <div class="flex items-baseline gap-2">
-            <span class="font-display font-medium text-5xl sm:text-6xl lg:text-7xl tracking-tight">₹40L</span>
-            <span class="text-sm text-ink/50 font-mono">one-time</span>
-          </div>
-          <div class="text-xs font-mono uppercase tracking-wider text-green-700 mt-2">Nothing more ever comes to us</div>
+        <div class="text-right">
+          <div class="text-xs font-mono uppercase tracking-widest text-ink/50">Market valuation</div>
+          <div class="font-display font-medium text-2xl line-through text-ink/40">₹50,00,000</div>
         </div>
-
-        <ul class="space-y-3 mb-8">
-          <li class="flex items-start gap-3 text-sm text-ink/75">
-            <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-            <span><strong class="text-ink">100% IP ownership</strong> — yours forever, legally protected</span>
-          </li>
-          <li class="flex items-start gap-3 text-sm text-ink/75">
-            <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-            <span>All 14 modules · Android + iOS apps · live streaming</span>
-          </li>
-          <li class="flex items-start gap-3 text-sm text-ink/75">
-            <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-            <span><strong class="text-ink">3 months free support</strong> after go-live</span>
-          </li>
-          <li class="flex items-start gap-3 text-sm text-ink/75">
-            <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-            <span>You can franchise, license, or resell the software</span>
-          </li>
-          <li class="flex items-start gap-3 text-sm text-ink/75">
-            <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-            <span>No annual fees, no renewal pressure</span>
-          </li>
-        </ul>
-
-        <div class="bg-white rounded-2xl p-5 mb-6 border border-black/5">
-          <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-3">You only pay providers directly for:</div>
-          <div class="space-y-2 text-xs text-ink/60">
-            <div class="flex justify-between"><span>Cloud server hosting</span><span class="font-mono text-ink/80">₹2–3K/mo</span></div>
-            <div class="flex justify-between"><span>Domain name</span><span class="font-mono text-ink/80">₹1K/yr</span></div>
-            <div class="flex justify-between"><span>WhatsApp + streaming APIs</span><span class="font-mono text-ink/80">Per use</span></div>
-          </div>
-        </div>
-
-        <a href="#contact" class="block text-center bg-ink text-cream px-6 py-3.5 rounded-full font-semibold text-sm hover:bg-ink/85 transition-colors">Choose full buyout →</a>
       </div>
 
-      <!-- OPTION B — Milestone -->
-      <div class="bg-gradient-to-br from-white to-orange-50/50 rounded-3xl p-8 sm:p-10 border-2 border-orange-300 relative lg:-mt-4 lg:mb-4">
-        <span class="absolute -top-3 left-8 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-mono uppercase tracking-widest px-3 py-1 rounded-full">Lower entry point</span>
-
-        <div class="flex items-start justify-between mb-8 mt-2">
-          <div>
-            <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-2">Option B</div>
-            <h3 class="font-display font-medium text-2xl sm:text-3xl">Milestone Plan</h3>
+      <div class="grid lg:grid-cols-2 gap-5 lg:gap-6">
+        <!-- Signature — Outright -->
+        <div class="bg-cream rounded-3xl p-8 sm:p-10 border border-black/5 relative">
+          <div class="flex items-start justify-between mb-8">
+            <div>
+              <div class="text-xs font-mono uppercase tracking-widest text-ink/50 mb-2">Option A</div>
+              <h4 class="font-display font-medium text-xl sm:text-2xl">Complete Buyout</h4>
+            </div>
+            <span class="text-xs font-mono px-3 py-1 bg-white rounded-full text-ink/60 border border-black/5">Own it forever</span>
           </div>
-          <span class="text-xs font-mono px-3 py-1 bg-orange-100 rounded-full text-orange-800 border border-orange-200">Recommended</span>
+          <div class="mb-8">
+            <div class="flex items-baseline gap-2">
+              <span class="font-display font-medium text-5xl sm:text-6xl tracking-tight">₹40L</span>
+              <span class="text-sm text-ink/50 font-mono">one-time</span>
+            </div>
+            <div class="text-xs font-mono uppercase tracking-wider text-green-700 mt-2">Nothing more ever comes to us</div>
+          </div>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-start gap-3 text-sm text-ink/75"><svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span><strong class="text-ink">All 14 modules</strong> — full scope</span></li>
+            <li class="flex items-start gap-3 text-sm text-ink/75"><svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Native Flutter apps — Android + iOS</span></li>
+            <li class="flex items-start gap-3 text-sm text-ink/75"><svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>AI attendance + smart inventory predictions</span></li>
+            <li class="flex items-start gap-3 text-sm text-ink/75"><svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Live HLS bay streaming — Agora infrastructure</span></li>
+            <li class="flex items-start gap-3 text-sm text-ink/75"><svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>100% IP ownership — legally yours</span></li>
+            <li class="flex items-start gap-3 text-sm text-ink/75"><svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>3 months free support after launch</span></li>
+          </ul>
+          <a href="#contact" class="block text-center bg-ink text-cream px-6 py-3.5 rounded-full font-semibold text-sm hover:bg-ink/85 transition-colors">Choose buyout →</a>
         </div>
 
-        <div class="mb-8">
-          <div class="flex items-baseline gap-2">
-            <span class="font-display font-medium text-5xl sm:text-6xl lg:text-7xl tracking-tight">₹10L</span>
-            <span class="text-sm text-ink/50 font-mono">upfront</span>
+        <!-- Signature — Milestone -->
+        <div class="bg-gradient-to-br from-white to-orange-50/50 rounded-3xl p-8 sm:p-10 border-2 border-orange-300 relative">
+          <span class="absolute -top-3 left-8 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-mono uppercase tracking-widest px-3 py-1 rounded-full">Staged</span>
+          <div class="flex items-start justify-between mb-8 mt-2">
+            <div>
+              <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-2">Option B</div>
+              <h4 class="font-display font-medium text-xl sm:text-2xl">Milestone Plan</h4>
+            </div>
+            <span class="text-xs font-mono px-3 py-1 bg-orange-100 rounded-full text-orange-800 border border-orange-200">Licence model</span>
           </div>
-          <div class="text-xs font-mono uppercase tracking-wider text-orange-600 mt-2">Paid in milestones · licence model</div>
+          <div class="mb-6">
+            <div class="flex items-baseline gap-2">
+              <span class="font-display font-medium text-5xl sm:text-6xl tracking-tight">₹10L</span>
+              <span class="text-sm text-ink/50 font-mono">to start</span>
+            </div>
+            <div class="text-xs font-mono uppercase tracking-wider text-orange-600 mt-2">Paid in stages · then ₹2L/year from Year 2</div>
+          </div>
+          <div class="bg-white rounded-2xl border border-orange-200/60 divide-y divide-orange-100 mb-6">
+            <div class="p-4 flex items-center justify-between">
+              <div>
+                <div class="text-xs font-mono uppercase tracking-wider text-ink/50">Milestone 1 · Signing</div>
+                <div class="text-sm font-medium text-ink mt-0.5">Kick-off payment</div>
+              </div>
+              <div class="font-display font-medium text-lg">₹10L</div>
+            </div>
+            <div class="p-4 flex items-center justify-between">
+              <div>
+                <div class="text-xs font-mono uppercase tracking-wider text-ink/50">Milestone 2 · Full delivery</div>
+                <div class="text-sm font-medium text-ink mt-0.5">Platform live · Month 5</div>
+              </div>
+              <div class="font-display font-medium text-lg">₹5L</div>
+            </div>
+            <div class="p-4 flex items-center justify-between">
+              <div>
+                <div class="text-xs font-mono uppercase tracking-wider text-ink/50">Milestone 3 · After 3-mo support</div>
+                <div class="text-sm font-medium text-ink mt-0.5">Final payment · Month 8</div>
+              </div>
+              <div class="font-display font-medium text-lg">₹5L</div>
+            </div>
+            <div class="p-4 flex items-center justify-between bg-orange-50/50">
+              <div>
+                <div class="text-xs font-mono uppercase tracking-wider text-orange-600">Year 2+</div>
+                <div class="text-sm font-medium text-ink mt-0.5">Annual retainer</div>
+              </div>
+              <div class="font-display font-medium text-lg">₹2L<span class="text-sm text-ink/50">/yr</span></div>
+            </div>
+          </div>
+          <ul class="space-y-2 mb-6 text-sm text-ink/75">
+            <li class="flex items-start gap-2"><span class="text-orange-500 mt-1">—</span>Everything in Option A — same scope, same quality</li>
+            <li class="flex items-start gap-2"><span class="text-orange-500 mt-1">—</span>Upgrade to full buyout any time — ₹20L credited</li>
+          </ul>
+          <a href="#contact" class="block text-center bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-3.5 rounded-full font-semibold text-sm hover:shadow-lg hover:shadow-orange-200 transition-all">Start with milestones →</a>
         </div>
-
-        <!-- Milestone breakdown -->
-        <div class="bg-white rounded-2xl border border-orange-200/60 divide-y divide-orange-100 mb-6">
-          <div class="p-4 flex items-center justify-between">
-            <div>
-              <div class="text-xs font-mono uppercase tracking-wider text-ink/50">Milestone 1 · Contract signing</div>
-              <div class="text-sm font-medium text-ink mt-0.5">Kick-off payment</div>
-            </div>
-            <div class="font-display font-medium text-lg">₹10L</div>
-          </div>
-          <div class="p-4 flex items-center justify-between">
-            <div>
-              <div class="text-xs font-mono uppercase tracking-wider text-ink/50">Milestone 2 · Full delivery</div>
-              <div class="text-sm font-medium text-ink mt-0.5">Platform live · Month 5</div>
-            </div>
-            <div class="font-display font-medium text-lg">₹5L</div>
-          </div>
-          <div class="p-4 flex items-center justify-between">
-            <div>
-              <div class="text-xs font-mono uppercase tracking-wider text-ink/50">Milestone 3 · After 3-mo support</div>
-              <div class="text-sm font-medium text-ink mt-0.5">Final payment · Month 8</div>
-            </div>
-            <div class="font-display font-medium text-lg">₹5L</div>
-          </div>
-          <div class="p-4 flex items-center justify-between bg-orange-50/50">
-            <div>
-              <div class="text-xs font-mono uppercase tracking-wider text-orange-600">Year 2 onwards</div>
-              <div class="text-sm font-medium text-ink mt-0.5">Annual retainer</div>
-            </div>
-            <div class="font-display font-medium text-lg">₹2L<span class="text-sm text-ink/50">/yr</span></div>
-          </div>
-        </div>
-
-        <ul class="space-y-3 mb-8">
-          <li class="flex items-start gap-3 text-sm text-ink/75">
-            <svg class="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-            <span><strong class="text-ink">₹20L total over Year 1</strong> — spread across build milestones</span>
-          </li>
-          <li class="flex items-start gap-3 text-sm text-ink/75">
-            <svg class="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-            <span>From Year 2 · ₹2L/year covers full maintenance &amp; updates</span>
-          </li>
-          <li class="flex items-start gap-3 text-sm text-ink/75">
-            <svg class="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-            <span>Cloud, domain, APIs still billed directly to you at provider cost</span>
-          </li>
-          <li class="flex items-start gap-3 text-sm text-ink/75">
-            <svg class="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-            <span>Upgrade to full buyout any time — ₹20L credited against ₹40L</span>
-          </li>
-        </ul>
-
-        <a href="#contact" class="block text-center bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-3.5 rounded-full font-semibold text-sm hover:shadow-lg hover:shadow-orange-200 transition-all">Start with milestone plan →</a>
       </div>
     </div>
 
-    <!-- Comparison strip -->
-    <div class="mt-10 sm:mt-14 bg-cream rounded-2xl border border-black/5 overflow-hidden">
-      <div class="px-5 sm:px-7 py-4 border-b border-black/5 text-xs font-mono uppercase tracking-widest text-ink/50">At a glance</div>
-      <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-black/5">
-        <div class="p-5 sm:p-6">
-          <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-2">Pay today</div>
-          <div class="font-display font-medium text-xl sm:text-2xl">₹40L <span class="text-sm text-ink/40">vs</span> ₹10L</div>
+    <!-- ═══ TIER 2 — ESSENTIALS ═══ -->
+    <div class="mb-10 sm:mb-14">
+      <div class="flex flex-wrap items-baseline justify-between gap-3 mb-8 pb-5 border-b border-black/10">
+        <div>
+          <div class="text-xs font-mono uppercase tracking-widest text-purple-600 mb-2">Tier 2 · Essentials Platform</div>
+          <h3 class="font-display font-medium text-3xl sm:text-4xl">Everything you need to start strong.</h3>
+          <p class="text-sm sm:text-base text-ink/60 mt-2 max-w-xl">The full operational backbone — billing, streaming, multi-role access, customer visibility — delivered as a unified web platform. Purpose-built, no compromise on core capability.</p>
         </div>
-        <div class="p-5 sm:p-6">
-          <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-2">Year 2 onwards</div>
-          <div class="font-display font-medium text-xl sm:text-2xl">₹0 <span class="text-sm text-ink/40">vs</span> ₹2L/yr</div>
-        </div>
-        <div class="p-5 sm:p-6">
-          <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-2">Own the IP</div>
-          <div class="font-display font-medium text-xl sm:text-2xl text-green-700">Yes <span class="text-sm text-ink/40">vs</span> <span class="text-ink/70">Licence</span></div>
-        </div>
-        <div class="p-5 sm:p-6">
-          <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-2">Can franchise</div>
-          <div class="font-display font-medium text-xl sm:text-2xl text-green-700">Yes <span class="text-sm text-ink/40">vs</span> <span class="text-ink/70">No</span></div>
+        <div class="text-right">
+          <div class="text-xs font-mono uppercase tracking-widest text-ink/50">Market valuation</div>
+          <div class="font-display font-medium text-2xl line-through text-ink/40">₹15,00,000</div>
         </div>
       </div>
+
+      <div class="grid lg:grid-cols-2 gap-5 lg:gap-6">
+        <!-- Essentials — Outright -->
+        <div class="bg-cream rounded-3xl p-8 sm:p-10 border border-black/5 relative">
+          <div class="flex items-start justify-between mb-8">
+            <div>
+              <div class="text-xs font-mono uppercase tracking-widest text-ink/50 mb-2">Option C</div>
+              <h4 class="font-display font-medium text-xl sm:text-2xl">Complete Buyout</h4>
+            </div>
+            <span class="text-xs font-mono px-3 py-1 bg-white rounded-full text-ink/60 border border-black/5">Own it forever</span>
+          </div>
+          <div class="mb-8">
+            <div class="flex items-baseline gap-2">
+              <span class="font-display font-medium text-5xl sm:text-6xl tracking-tight">₹10L</span>
+              <span class="text-sm text-ink/50 font-mono">one-time</span>
+            </div>
+            <div class="text-xs font-mono uppercase tracking-wider text-green-700 mt-2">Nothing more ever comes to us</div>
+          </div>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-start gap-3 text-sm text-ink/75"><svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span><strong class="text-ink">Unified web platform</strong> — owner, manager, advisor, mechanic, inventory, customer access</span></li>
+            <li class="flex items-start gap-3 text-sm text-ink/75"><svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Live mechanic video streaming — HLS, included</span></li>
+            <li class="flex items-start gap-3 text-sm text-ink/75"><svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Biometric attendance (fingerprint + basic face-scan)</span></li>
+            <li class="flex items-start gap-3 text-sm text-ink/75"><svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Customer app — progressive web app, installable on Android + iPhone</span></li>
+            <li class="flex items-start gap-3 text-sm text-ink/75"><svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>WhatsApp + SMS + push notifications</span></li>
+            <li class="flex items-start gap-3 text-sm text-ink/75"><svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Barcode inventory, GST invoicing, digital job cards</span></li>
+            <li class="flex items-start gap-3 text-sm text-ink/75"><svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>3 months free support · full IP ownership</span></li>
+          </ul>
+          <a href="#contact" class="block text-center bg-ink text-cream px-6 py-3.5 rounded-full font-semibold text-sm hover:bg-ink/85 transition-colors">Choose buyout →</a>
+        </div>
+
+        <!-- Essentials — Milestone -->
+        <div class="bg-gradient-to-br from-white to-purple-50/50 rounded-3xl p-8 sm:p-10 border-2 border-purple-300 relative">
+          <span class="absolute -top-3 left-8 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-mono uppercase tracking-widest px-3 py-1 rounded-full">Staged</span>
+          <div class="flex items-start justify-between mb-8 mt-2">
+            <div>
+              <div class="text-xs font-mono uppercase tracking-widest text-purple-600 mb-2">Option D</div>
+              <h4 class="font-display font-medium text-xl sm:text-2xl">Milestone Plan</h4>
+            </div>
+            <span class="text-xs font-mono px-3 py-1 bg-purple-100 rounded-full text-purple-800 border border-purple-200">Licence model</span>
+          </div>
+          <div class="mb-6">
+            <div class="flex items-baseline gap-2">
+              <span class="font-display font-medium text-5xl sm:text-6xl tracking-tight">₹5L</span>
+              <span class="text-sm text-ink/50 font-mono">to start</span>
+            </div>
+            <div class="text-xs font-mono uppercase tracking-wider text-purple-600 mt-2">Paid in stages · then ₹1L/year from Year 2</div>
+          </div>
+          <div class="bg-white rounded-2xl border border-purple-200/60 divide-y divide-purple-100 mb-6">
+            <div class="p-4 flex items-center justify-between">
+              <div>
+                <div class="text-xs font-mono uppercase tracking-wider text-ink/50">Milestone 1 · Signing</div>
+                <div class="text-sm font-medium text-ink mt-0.5">Kick-off payment</div>
+              </div>
+              <div class="font-display font-medium text-lg">₹5L</div>
+            </div>
+            <div class="p-4 flex items-center justify-between">
+              <div>
+                <div class="text-xs font-mono uppercase tracking-wider text-ink/50">Milestone 2 · Platform live</div>
+                <div class="text-sm font-medium text-ink mt-0.5">Delivery payment</div>
+              </div>
+              <div class="font-display font-medium text-lg">₹2.5L</div>
+            </div>
+            <div class="p-4 flex items-center justify-between">
+              <div>
+                <div class="text-xs font-mono uppercase tracking-wider text-ink/50">Milestone 3 · Post-support</div>
+                <div class="text-sm font-medium text-ink mt-0.5">Final payment</div>
+              </div>
+              <div class="font-display font-medium text-lg">₹2.5L</div>
+            </div>
+            <div class="p-4 flex items-center justify-between bg-purple-50/50">
+              <div>
+                <div class="text-xs font-mono uppercase tracking-wider text-purple-600">Year 2+</div>
+                <div class="text-sm font-medium text-ink mt-0.5">Annual retainer</div>
+              </div>
+              <div class="font-display font-medium text-lg">₹1L<span class="text-sm text-ink/50">/yr</span></div>
+            </div>
+          </div>
+          <ul class="space-y-2 mb-6 text-sm text-ink/75">
+            <li class="flex items-start gap-2"><span class="text-purple-500 mt-1">—</span>Everything in Option C — same scope, same quality</li>
+            <li class="flex items-start gap-2"><span class="text-purple-500 mt-1">—</span>Upgrade to Signature Suite any time — full credit applied</li>
+          </ul>
+          <a href="#contact" class="block text-center bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3.5 rounded-full font-semibold text-sm hover:shadow-lg hover:shadow-purple-200 transition-all">Start with milestones →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ COMPARISON STRIP ═══ -->
+    <div class="mt-10 sm:mt-14 bg-cream rounded-2xl border border-black/5 overflow-hidden">
+      <div class="px-5 sm:px-7 py-4 border-b border-black/5 text-xs font-mono uppercase tracking-widest text-ink/50">What separates the tiers</div>
+      <div class="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-black/5">
+        <div class="p-5 sm:p-6">
+          <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-2">Mobile experience</div>
+          <div class="font-display font-medium text-base sm:text-lg text-ink">Native Flutter <span class="text-sm text-ink/40">vs</span> <span class="text-ink/70">Installable web app</span></div>
+        </div>
+        <div class="p-5 sm:p-6">
+          <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-2">Attendance</div>
+          <div class="font-display font-medium text-base sm:text-lg text-ink">AI face-scan <span class="text-sm text-ink/40">vs</span> <span class="text-ink/70">Biometric</span></div>
+        </div>
+        <div class="p-5 sm:p-6">
+          <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-2">Inventory</div>
+          <div class="font-display font-medium text-base sm:text-lg text-ink">Predictive AI <span class="text-sm text-ink/40">vs</span> <span class="text-ink/70">Smart alerts</span></div>
+        </div>
+        <div class="p-5 sm:p-6">
+          <div class="text-xs font-mono uppercase tracking-wider text-ink/50 mb-2">Upgrade path</div>
+          <div class="font-display font-medium text-base sm:text-lg text-green-700">Anytime <span class="text-sm text-ink/40">·</span> <span class="text-ink/70">Full credit</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHY NOT CHEAPER NOTE -->
+    <div class="mt-8 p-5 sm:p-6 bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl border border-orange-200/60 text-sm text-ink/75 leading-relaxed">
+      <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-2">A note on pricing</div>
+      Both tiers are built on modern, production-grade infrastructure — Node.js, Supabase, Flutter or progressive web app, Agora streaming, Python microservices. We deliberately do not compete with WebView-wrapper, PHP-era quotes. Those products work on day one and break by month twelve. What we build is designed to still be running flawlessly in year five, with clean upgrade paths the whole way.
     </div>
   </div>
 </section>
@@ -693,7 +813,7 @@ tailwind.config = {
 <!-- ═══════════════════════════════════════════════════
      HARDWARE OPTIONS
 ═══════════════════════════════════════════════════ -->
-<section class="py-20 sm:py-24 lg:py-32">
+<section class="py-20 sm:py-24 lg:py-32 bg-cream">
   <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12">
     <div class="max-w-3xl mb-14">
       <div class="text-xs font-mono uppercase tracking-widest text-orange-600 mb-4">Hardware &amp; running costs</div>
@@ -815,7 +935,7 @@ tailwind.config = {
       <div class="absolute -bottom-20 -left-20 w-96 h-96 rounded-full mesh-lilac opacity-20 blur-3xl"></div>
       <div class="relative text-center">
         <h2 class="font-display font-medium tracking-tight text-3xl sm:text-5xl lg:text-6xl leading-[1.05] text-cream mb-6">
-          Ready to run the most <span class="font-display-italic bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent">modern workshop in India?</span>
+          Ready to run the most <span class="font-display-italic shimmer-text">modern workshop in India?</span>
         </h2>
         <p class="text-base sm:text-lg text-cream/60 max-w-2xl mx-auto mb-10">
           Book a 30-minute walkthrough of the platform. See exactly how it will run your 50-bay operation.
